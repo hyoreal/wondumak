@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
@@ -9,6 +8,8 @@ import { CategoryMatcherToKor } from '@/utils/CategryMatcher';
 import PairingThumbs from '../PairingThumbs';
 import { accessToken, userId } from '@/atoms/login';
 import { useRouter } from 'next/router';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 export default function SmallPairingCard({ pairingProps }: any) {
   const [pairingList, setpairingList] = useState<any>([]);
@@ -97,13 +98,13 @@ export default function SmallPairingCard({ pairingProps }: any) {
             </span>
 
             {pairingList.userImage ? (
-              <Image
+              <LazyLoadImage
                 alt="userImg"
                 src={pairingList?.userImage}
-                width={100}
-                height={100}
+                width="16"
+                height="16"
                 className="w-4 h-4 rounded-full"
-                priority
+                effect="blur"
               />
             ) : (
               <></>
@@ -120,14 +121,14 @@ export default function SmallPairingCard({ pairingProps }: any) {
           >
             {pairingList?.thumbnail ? (
               <div className="h-[77px] w-auto overflow-hidden mb-0.5">
-                <Image
+                <LazyLoadImage
                   src={pairingList?.thumbnail}
                   alt="img"
-                  width={100}
-                  height={100}
+                  width="100"
+                  height="100"
                   className="m-auto h-full w-auto select-none"
                   id={`pairingImage${pairingList?.pairingId}`}
-                  priority
+                  effect="blur"
                 />
               </div>
             ) : (
