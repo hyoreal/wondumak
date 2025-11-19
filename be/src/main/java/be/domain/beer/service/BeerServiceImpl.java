@@ -3,6 +3,7 @@ package be.domain.beer.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,18 +81,6 @@ public class BeerServiceImpl implements BeerService {
 		beerRepository.deleteById(beerId);
 	}
 
-	//    public Beer isWishListedBeer(Beer beer, User user){
-	//        return null;
-	//    }
-
-	//    public Comment isLikedComment(Comment comment, User user){
-	//        return null;
-	//    }
-
-	//    public Beer isLikedComments(Long beerId){
-	//        return null;
-	//    }
-
 	@Override
 	@Transactional
 	public void createMonthlyBeer() {
@@ -154,21 +143,69 @@ public class BeerServiceImpl implements BeerService {
 	public List<Beer> findRecommendBeers() {
 
 		User findUser = userService.getLoginUserReturnNull();
-		// try {
-		// 	userService.getLoginUser();
-		// } catch (BusinessLogicException e) {
-		// 	return null;
-		// }
-		//
-		// User findUser = userService.getLoginUser();
-		if (findUser != null) {
+
+		if (findUser == null) {
+			return beerRepository.findRandomBeer();
+		}
+
+		/* 로그인 유저가 평가한 맥주 리스트 */
+		List<Rating> ratingList = findUser.getRatingList();
+
+		if (ratingList.size() == 0) {
 			if (findUser.getUserBeerCategories().size() == 0) {
 				return beerRepository.findRandomBeer();
 			} else {
 				return beerQueryRepository.findRecommendBeer(findUser);
 			}
+		}
+
+		/* 평가한 맥주 중 별점이 4점 이상인 맥주를 추출 */
+		List<Beer> userFavoriteBeers = new ArrayList<>();
+		for (Rating rating : ratingList) {
+			if (rating.getStar() >= 4) {
+				userFavoriteBeers.add(rating.getBeer());
+			}
+		}
+
+		if (userFavoriteBeers.size() == 0) {
+			if (findUser.getUserBeerCategories().size() == 0) {
+				return beerRepository.findRandomBeer();
+			} else {
+				return beerQueryRepository.findRecommendBeer(findUser);
+			}
+		}
+
+		/* 별점이 4점 이상인 맥주와 유사한 맥주를 추천 */
+		List<Beer> recommendBeers = new ArrayList<>();
+		for (Beer beer : userFavoriteBeers) {
+			List<Beer> similarBeers = beerQueryRepository.findSimilarBeer(beer);
+			recommendBeers.addAll(similarBeers);
+		}
+
+		/* 추천 맥주에서 이미 유저가 평가한 맥주를 제외 */
+		List<Beer> ratedBeers = beerQueryRepository.findRatedBeersListByUserId(findUser.getId());
+		recommendBeers.removeAll(ratedBeers);
+
+		/* 중복 제거 */
+		recommendBeers = recommendBeers.stream().distinct().collect(Collectors.toList());
+
+		/* 사이즈가 5 미만일 경우, 부족한 사이즈만큼 랜덤 맥주를 추가 */
+		if (recommendBeers.size() < 5) {
+			List<Beer> randomBeers = beerRepository.findRandomBeer();
+			randomBeers.removeAll(ratedBeers);
+			randomBeers.removeAll(recommendBeers);
+			if (randomBeers.size() > (5 - recommendBeers.size())) {
+				recommendBeers.addAll(randomBeers.subList(0, 5 - recommendBeers.size()));
+			} else {
+				recommendBeers.addAll(randomBeers);
+			}
+		}
+
+		/* 최종 추천 맥주 리스트의 사이즈를 5로 제한 */
+		if (recommendBeers.size() > 5) {
+			return recommendBeers.subList(0, 5);
 		} else {
-			return beerRepository.findRandomBeer();
+			return recommendBeers;
 		}
 	}
 
