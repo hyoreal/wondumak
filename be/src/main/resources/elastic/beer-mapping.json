@@ -1,39 +1,32 @@
 {
   "properties": {
     "id": {
-      "type": "keyword"
+      "type": "long"
     },
     "korName": {
-      "type": "keyword"
+      "type": "text",
+      "analyzer": "nori",
+      "search_analyzer": "nori"
     },
     "engName": {
-      "type": "keyword"
+      "type": "text",
+      "analyzer": "standard",
+      "search_analyzer": "standard"
     },
     "country": {
-      "type": "text"
-    },
-    "category": {
       "type": "keyword"
     },
-    "beerDetailsTopTags": {
-      "properties": {
-        "tag1": {
-          "type": "text"
-        },
-        "tag2": {
-          "type": "text"
-        },
-        "tag3": {
-          "type": "text"
-        },
-        "tag4": {
-          "type": "text"
-        }
-      }
+    "beerCategory": {
+      "type": "keyword"
     },
-    "description": {
-      "type": "text",
-      "analyzer": "korean"
+    "abv": {
+      "type": "double"
+    },
+    "tags": {
+      "type": "keyword"
+    },
+    "averageStar": {
+      "type": "double"
     }
   }
 }
