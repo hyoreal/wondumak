@@ -5,6 +5,8 @@ import { RecoilRoot } from 'recoil';
 import NavBar from '@/components/NavBar';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import ChatbotIcon from '@/components/chatbot/ChatbotIcon';
+import ChatbotModal from '@/components/chatbot/ChatbotModal';
 
 declare global {
   interface Window {
@@ -14,6 +16,11 @@ declare global {
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+
+  const toggleChatbot = () => {
+    setIsChatbotOpen((prev) => !prev);
+  };
 
   return (
     <RecoilRoot>
@@ -21,6 +28,8 @@ export default function App({ Component, pageProps }: AppProps) {
         <Header />
         <Component {...pageProps} />
         <NavBar />
+        <ChatbotIcon onClick={toggleChatbot} />
+        {isChatbotOpen && <ChatbotModal onClose={toggleChatbot} />}
       </QueryClientProvider>
     </RecoilRoot>
   );
