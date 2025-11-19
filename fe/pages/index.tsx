@@ -5,14 +5,25 @@ import RecommendBeer from '@/components/smallCards/RecommendBeer';
 import BeerCategoryBtn from '@/components/mainPage/BeerCategoryBtn';
 import Footer from '@/components/Footer';
 import axios from '@/pages/api/axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PopularBeer from '@/components/smallCards/PopularBeer';
 import { useRecoilState } from 'recoil';
 import { accessToken } from '@/atoms/login';
+import { useQuery } from '@tanstack/react-query';
 import {
   PopularBeerType,
   RecommendBeerType,
 } from '@/components/beerPage/BeerDeclare';
+
+// API 호출 함수를 컴포넌트 밖으로 분리
+const fetchRecommendBeer = async (token: string) => {
+  const config = {
+    headers: { Authorization: token, 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+  const { data } = await axios.get(`/api/beers/recommend`, config);
+  return data;
+};
 
 export default function Main({
   weeklyBeer,
@@ -21,29 +32,15 @@ export default function Main({
   const [popularBeer, setPopularBeer] = useState<PopularBeerType[] | string>(
     weeklyBeer
   );
-  const [recommendBeer, setRecommendBeer] = useState<
-    RecommendBeerType[] | string
-  >('');
-  const [recommendFlag, setRecommendFlag] = useState<RecommendBeerType | null>(
-    null
-  );
 
-  // 사용자 추천맥주(이 경우엔 토큰 여부에 따라 렌더링 다르므로 useEffect 써야함)
-  useEffect(() => {
-    if (TOKEN !== '') {
-      const config = {
-        headers: { Authorization: TOKEN, 'Content-Type': 'application/json' },
-        withCredentials: true,
-      };
-      axios
-        .get(`/api/beers/recommend`, config)
-        .then((response) => {
-          setRecommendBeer(response.data);
-          setRecommendFlag(response.data[0].beerId);
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [TOKEN]);
+  // React Query를 사용하여 사용자 추천 맥주 데이터 페칭
+  const { data: recommendBeer, isLoading: isRecommendLoading } = useQuery<
+    RecommendBeerType[]
+  >({
+    queryKey: ['recommendBeer', TOKEN], // Query Key
+    queryFn: () => fetchRecommendBeer(TOKEN), // Query Function
+    enabled: !!TOKEN, // TOKEN이 있을 때만 쿼리 실행
+  });
 
   return (
     <>
@@ -64,18 +61,21 @@ export default function Main({
               <PopularBeer popularBeer={popularBeer} />
             </>
           )}
-          {recommendBeer === '' ? (
-            <></>
-          ) : recommendFlag === null ? (
-            <></>
+          {isRecommendLoading ? (
+            <div className="m-3 mt-6 text-base font-semibold lg:text-xl">
+              추천 맥주를 불러오는 중...
+            </div>
           ) : (
-            <>
-              <div className="m-3 mt-6 text-base font-semibold lg:text-xl">
-                <span className="text-black">나를 위한</span>
-                <span className="text-y-brown mr-1">추천 맥주</span>
-              </div>
-              <RecommendBeer recommendBeer={recommendBeer} />
-            </>
+            recommendBeer &&
+            recommendBeer.length > 0 && (
+              <>
+                <div className="m-3 mt-6 text-base font-semibold lg:text-xl">
+                  <span className="text-black">나를 위한</span>
+                  <span className="text-y-brown mr-1">추천 맥주</span>
+                </div>
+                <RecommendBeer recommendBeer={recommendBeer} />
+              </>
+            )
           )}
         </div>
         <div className="pb-8"></div>

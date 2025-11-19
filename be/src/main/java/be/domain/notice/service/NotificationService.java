@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import be.domain.notice.dto.NotificationDto;
 import be.domain.notice.entity.Notification;
 import be.domain.notice.entity.NotificationType;
+import be.domain.notice.event.NotificationEvent;
 import be.domain.notice.repository.EmitterRepository;
 import be.domain.notice.repository.NotificationQRepository;
 import be.domain.notice.repository.NotificationRepository;
@@ -38,6 +40,7 @@ public class NotificationService {
 	private final EmitterRepository emitterRepository;
 	private final NotificationRepository notificationRepository;
 	private final NotificationQRepository notificationQRepository;
+	private final ApplicationEventPublisher publisher;
 
 	// SSE 통신
 	public SseEmitter subscribe(String lastEventId) {
@@ -79,7 +82,13 @@ public class NotificationService {
 	@Transactional
 	public void send(User user, Long idForNotifyType, String title, String content, String commenterImage,
 		NotificationType notificationType) {
+		publisher.publishEvent(
+			new NotificationEvent(user, idForNotifyType, title, content, commenterImage, notificationType));
+	}
 
+	@Transactional
+	public void sendNotificationInternal(User user, Long idForNotifyType, String title, String content,
+		String commenterImage, NotificationType notificationType) {
 		Notification notification = createNotification(user, idForNotifyType, title, content, commenterImage,
 			notificationType);
 		String id = String.valueOf(user.getId());

@@ -5,6 +5,7 @@ export interface BeerInfo {
     engName: string;
     country: string;
     thumbnail: string;
+    content: string;
     abv: number;
     ibu: number;
   };
@@ -103,7 +104,7 @@ export interface SimilarBeerProps {
 
 export interface PopularBeerType {
   beerId: number;
-  korName: string;
+  korName:string;
   thumbnail: string;
   averageStar: number;
   beerCategories: any;
