@@ -1,6 +1,5 @@
 import { FaRegCommentDots } from 'react-icons/fa';
 import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
-import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { noReview, NoReviewTypes } from '@/atoms/noReview';
 import SmallTag from '@/components/smallCards/SmallTag';
@@ -12,6 +11,8 @@ import { useRouter } from 'next/router';
 import { accessToken, userId } from '@/atoms/login';
 import Swal from 'sweetalert2';
 import { useRecoilState } from 'recoil';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 export interface RatingCardProps {
   beerId: number;
@@ -149,13 +150,13 @@ export default function SmallRatingCard({ ratingProps }: any) {
 
         <div className="flex justify-between py-1 px-2">
           <span className="flex justify-center items-center">
-            <Image
+            <LazyLoadImage
               src="/images/star.png"
               alt="star"
               width={20}
               height={20}
               className="mr-1 mb-[3px] text-y-gold drop-shadow-md  select-none"
-              priority
+              effect="blur"
             />
             {starScore}
           </span>
@@ -167,13 +168,13 @@ export default function SmallRatingCard({ ratingProps }: any) {
               {ratingList?.nickname}
             </span>
             {ratingList?.userImage ? (
-              <Image
+              <LazyLoadImage
                 alt="userImg"
                 src={ratingList?.userImage}
-                width={100}
-                height={100}
+                width={16}
+                height={16}
                 className="w-4 h-4 rounded-full"
-                priority
+                effect="blur"
               />
             ) : (
               <></>
