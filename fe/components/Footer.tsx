@@ -5,10 +5,10 @@ export default function Footer() {
   return (
     <footer className="w-full h-44 bg-y-cream">
       <div className="flex flex-col mx-4 py-6">
-        <span className="text-black text-xs mb-7">copyright © Get-A-Beer</span>
+        <span className="text-black text-xs mb-7">copyright © Get-A-Coffee</span>
 
         <Link
-          href={'https://github.com/GetA-BEER/GetABeer'}
+          href={'https://github.com/GetA-BEER/GetACoffee'}
           className="flex items-center"
         >
           <Image

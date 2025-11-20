@@ -1,0 +1,26 @@
+import Link from 'next/link';
+
+export interface ratingCount {
+  count?: string;
+}
+
+export default function RatingTitle(props: {
+  ratingCount: number | undefined;
+  coffeeId: number | undefined;
+}) {
+  return (
+    <div className="max-w-4xl flex justify-between mx-3 mt-4 mb-1">
+      <div className="flex items-center">
+        <span className="font-semibold mr-1 text-base lg:text-xl">평가</span>
+        <span className="text-xs">{props?.ratingCount}</span>
+      </div>
+      {props?.ratingCount === 0 ? (
+        <></>
+      ) : (
+        <Link href={`/allrating/${props?.coffeeId}`}>
+          <span className="text-xs flex items-end">모두보기</span>
+        </Link>
+      )}
+    </div>
+  );
+}

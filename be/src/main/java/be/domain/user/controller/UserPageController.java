@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import be.domain.beer.dto.BeerDto;
+import be.domain.coffee.dto.CoffeeDto;
 import be.domain.comment.dto.PairingCommentDto;
 import be.domain.comment.dto.RatingCommentDto;
 import be.domain.comment.entity.PairingComment;

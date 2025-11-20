@@ -16,12 +16,12 @@ module.exports = {
         // sans가 제일 기본 상속 폰트이므로 전체 폰트바꾸려면 sans재지정후 맨앞에 원하는 폰트 넣기
       },
       colors: {
-        'y-brown': '#CD5F03',
-        'y-cream': '#FCF2E9',
-        'y-gold': '#F1B31C',
+        'y-brown': '#87CEEB', // Sky Blue replaced Brown
+        'y-cream': '#E0F7FA', // Light Cyan replaced Cream
+        'y-gold': '#00BFFF', // Deep Sky Blue replaced Gold
         'y-lightGray': '#DDDDDD',
-        'y-yellow': '#FCEA2B',
-        'y-lemon': '#FFFBD4',
+        'y-yellow': '#B0E0E6', // Powder Blue replaced Yellow
+        'y-lemon': '#F0F8FF', // Alice Blue replaced Lemon
         'y-gray': '#A7A7A7',
         'y-black': '#000000',
       },

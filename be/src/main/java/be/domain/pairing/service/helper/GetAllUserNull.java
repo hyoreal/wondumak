@@ -15,10 +15,10 @@ import be.global.exception.ExceptionCode;
 /* 로그인 안한 유저 전체조회 */
 public class GetAllUserNull implements PairingState{
 	@Override
-	public Page<PairingResponseDto.Total> getPairingResponse(User user, String category, String type, Long beerId,
+	public Page<PairingResponseDto.Total> getPairingResponse(User user, String category, String type, Long coffeeId,
 		Pageable pageable, PairingRepository pairingRepository, PairingLikeRepository pairingLikeRepository) {
 		Page<PairingResponseDto.Total> responses =
-			pairingRepository.findPairingTotalResponseGetALL(beerId, type, pageable);
+			pairingRepository.findPairingTotalResponseGetALL(coffeeId, type, pageable);
 		responses.forEach(
 			pairing -> {
 				pairing.addUserLike(false);

@@ -13,24 +13,24 @@ import BackBtn from '@/components/button/BackPageBtn';
 
 export default function AllRating() {
   const router = useRouter();
-  const beerId = router.query.beerid;
+  const coffeeId = router.query.coffeeid;
   const [title, setTitle] = useState<string>('');
   const [sort, setSort] = useState<Sort>('mostlikes');
   const [ratingList, setRatingList] = useState<RatingCardProps[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   useEffect(() => {
-    if (beerId !== undefined) {
+    if (coffeeId !== undefined) {
       axios
-        .get(`/api/ratings/page/${sort}?beerId=${beerId}&page=${page}&size=5`)
+        .get(`/api/ratings/page/${sort}?coffeeId=${coffeeId}&page=${page}&size=5`)
         .then((res) => {
           setRatingList(res.data.data);
           setTotalPages(res.data.pageInfo.totalPages);
-          setTitle(res.data.pageInfo.beerKorName);
+          setTitle(res.data.pageInfo.coffeeKorName);
         })
         .catch((err) => console.log(err));
     }
-  }, [beerId, sort, page]);
+  }, [coffeeId, sort, page]);
 
   return (
     <PageContainer>

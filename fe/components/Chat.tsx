@@ -144,7 +144,7 @@ export default function Chat() {
               </h3>
               <ul className="flex flex-col gap-y-2 border shadow-sm mb-1 p-1 rounded-lg w-full h-full overflow-scroll">
                 <ChatBalloonLeft>
-                  안녕하세요. Get A Beer 운영자입니다.
+                  안녕하세요. Get A Coffee 운영자입니다.
                   <br />
                   <br />
                   문의주시는 내용은 내부 검토 후 <br />

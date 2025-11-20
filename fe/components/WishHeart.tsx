@@ -6,14 +6,14 @@ import { useRecoilState } from 'recoil';
 import { accessToken } from '@/atoms/login';
 
 interface WishHeartProps {
-  beerId: number;
+  coffeeId: number;
   isWish: boolean;
   setIsWish: React.Dispatch<React.SetStateAction<boolean>>;
   isLogin: boolean;
 }
 
 export default function WishHeart({
-  beerId,
+  coffeeId,
   isWish,
   setIsWish,
   isLogin,
@@ -27,7 +27,7 @@ export default function WishHeart({
   const handleWish = () => {
     if (isLogin) {
       axios
-        .patch(`/api/beers/${beerId}/wish`, {}, config)
+        .patch(`/api/coffees/${coffeeId}/wish`, {}, config)
         .then((res) => {
           setIsWish(!isWish);
         })

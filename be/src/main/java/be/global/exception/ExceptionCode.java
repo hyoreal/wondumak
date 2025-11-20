@@ -38,8 +38,8 @@ public enum ExceptionCode {
 	DUPLICATION_PASSWORD(409, "전 비밀번호와 동일한 비밀번호로 변경할 수 없습니다."),
 
 	/* BEER 관련 예외 */
-	BEER_NOT_FOUND(404, "Beer Not Found"),
-	BEER_CATEGORY_NOT_FOUND(404, "Beer Category Not Found"),
+	BEER_NOT_FOUND(404, "Coffee Not Found"),
+	BEER_CATEGORY_NOT_FOUND(404, "Coffee Category Not Found"),
 	WISH_LISTED(409, "Already Listed"),
 	UN_WISH_LISTED(409, "Already UnListed"),
 

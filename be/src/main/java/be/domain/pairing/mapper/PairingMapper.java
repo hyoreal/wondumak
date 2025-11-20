@@ -45,13 +45,13 @@ public interface PairingMapper {
 			.build();
 	}
 
-	default PairingResponseDto.Detail pairingToPairingResponseDto(Pairing pairing, Long beerId) {
+	default PairingResponseDto.Detail pairingToPairingResponseDto(Pairing pairing, Long coffeeId) {
 		if (pairing == null) {
 			return null;
 		}
 
 		return PairingResponseDto.Detail.builder()
-			.beerId(beerId)
+			.coffeeId(coffeeId)
 			.pairingId(pairing.getId())
 			.userId(pairing.getUser().getId())
 			.nickname(pairing.getUser().getNickname())
@@ -118,8 +118,8 @@ public interface PairingMapper {
 		return new PageImpl<>(pairings.stream()
 			.map(pairing ->
 				new PairingResponseDto.Total(
-					pairing.getBeer().getId(),
-					pairing.getBeer().getBeerDetailsBasic().getKorName(),
+					pairing.getCoffee().getId(),
+					pairing.getCoffee().getCoffeeDetailsBasic().getKorName(),
 					pairing.getId(),
 					pairing.getUser().getId(),
 					pairing.getUser().getNickname(),
@@ -141,8 +141,8 @@ public interface PairingMapper {
 		return new PageImpl<>(pairings.stream()
 			.map(pairing ->
 				new PairingResponseDto.UserPageResponse(
-					pairing.getBeer().getId(),
-					pairing.getBeer().getBeerDetailsBasic().getKorName(),
+					pairing.getCoffee().getId(),
+					pairing.getCoffee().getCoffeeDetailsBasic().getKorName(),
 					pairing.getId(),
 					pairing.getUser().getId(),
 					pairing.getUser().getNickname(),

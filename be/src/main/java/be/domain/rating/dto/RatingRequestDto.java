@@ -12,7 +12,7 @@ public class RatingRequestDto {
 	public static class Post {
 
 		@NotNull
-		private Long beerId;
+		private Long coffeeId;
 
 		private String content;
 
@@ -37,7 +37,7 @@ public class RatingRequestDto {
 	public static class Patch {
 
 		@NotNull
-		private Long beerId;
+		private Long coffeeId;
 		private String content;
 		private Double star;
 

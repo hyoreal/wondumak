@@ -16,11 +16,11 @@ import StarRating from '@/components/inputs/StarRating';
 import PageContainer from '@/components/PageContainer';
 import { useRecoilState } from 'recoil';
 import { accessToken } from '@/atoms/login';
-import { currentBeer } from '@/atoms/currentBeer';
+import { currentCoffee } from '@/atoms/currentCoffee';
 
 export default function PostRatingPage() {
   const router = useRouter();
-  const [beerInfo] = useRecoilState(currentBeer);
+  const [coffeeInfo] = useRecoilState(currentCoffee);
   const [star, setStar] = useState(0);
   const [content, setContent] = useState('');
   const [color, setColor] = useState('');
@@ -35,19 +35,19 @@ export default function PostRatingPage() {
   };
 
   const cardProps: MiddleCardInfo = {
-    beerId: beerInfo?.beerId,
-    thumbnail: beerInfo?.beerDetailsBasic?.thumbnail,
-    korName: beerInfo?.beerDetailsBasic?.korName,
-    category: beerInfo?.beerCategoryTypes,
-    country: beerInfo?.beerDetailsBasic?.country,
-    abv: beerInfo?.beerDetailsBasic?.abv,
-    ibu: beerInfo?.beerDetailsBasic?.ibu,
+    coffeeId: coffeeInfo?.coffeeId,
+    thumbnail: coffeeInfo?.coffeeDetailsBasic?.thumbnail,
+    korName: coffeeInfo?.coffeeDetailsBasic?.korName,
+    category: coffeeInfo?.coffeeCategoryTypes,
+    country: coffeeInfo?.coffeeDetailsBasic?.country,
+    roasting: coffeeInfo?.coffeeDetailsBasic?.roasting,
+    acidity: coffeeInfo?.coffeeDetailsBasic?.acidity,
     totalStarCount:
-      beerInfo?.beerDetailsCounts?.totalStarCount ||
-      beerInfo?.beerDetailsCounts?.femaleStarCount +
-        beerInfo?.beerDetailsCounts?.maleStarCount,
-    totalAverageStars: beerInfo?.beerDetailsStars?.totalAverageStars,
-    beerTags: beerInfo?.beerDetailsTopTags || [],
+      coffeeInfo?.coffeeDetailsCounts?.totalStarCount ||
+      coffeeInfo?.coffeeDetailsCounts?.femaleStarCount +
+        coffeeInfo?.coffeeDetailsCounts?.maleStarCount,
+    totalAverageStars: coffeeInfo?.coffeeDetailsStars?.totalAverageStars,
+    coffeeTags: coffeeInfo?.coffeeDetailsTopTags || [],
   };
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default function PostRatingPage() {
 
   const handleSubmit = () => {
     const reqBody = {
-      beerId: beerInfo.beerId,
+      coffeeId: coffeeInfo.coffeeId,
       star,
       content,
       color: TagMatcherToEng(color),

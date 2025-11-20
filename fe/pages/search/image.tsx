@@ -27,7 +27,7 @@ export default function ImageSearch() {
           ) : (
             searchResultList.map((el, idx) => {
               return (
-                <Link key={el.beerId} href={`/beer/${el.beerId}`}>
+                <Link key={el.coffeeId} href={`/coffee/${el.coffeeId}`}>
                   <SearchCard cardProps={el} idx={idx} />
                 </Link>
               );

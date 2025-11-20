@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import be.domain.beer.entity.Beer;
+import be.domain.coffee.entity.Coffee;
 import be.domain.pairing.entity.Pairing;
 import be.domain.pairing.entity.PairingImage;
 
@@ -15,7 +15,7 @@ public interface ImageHandler {
 	HashMap createProfileImage(MultipartFile file, String folderSrc) throws IOException;
 
 	List<PairingImage> createPairingImage(Pairing pairing,
-		List<MultipartFile> files, Long userId, Beer beer) throws IOException;
+		List<MultipartFile> files, Long userId, Coffee coffee) throws IOException;
 
 	List<PairingImage> updatePairingImage(Pairing pairing, List<String> type, List<Long> url,
 		List<MultipartFile> files) throws IOException;

@@ -42,7 +42,7 @@ export default function Kakao() {
           // console.log(res);
           if (res.data.age !== null) {
             swal.fire({
-              title: 'Get A Beer',
+              title: 'Get A Coffee',
               text: '로그인이 완료되었습니다.',
               confirmButtonColor: '#F1B31C',
               confirmButtonText: '확인',

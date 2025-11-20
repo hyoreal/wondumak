@@ -40,7 +40,7 @@ public class TotalStatistics extends BaseTimeEntity {
 	@ColumnDefault("0")
 	private Integer totalVisitorCount;
 	@ColumnDefault("0")
-	private Integer totalBeerViewCount;
+	private Integer totalCoffeeViewCount;
 	@ColumnDefault("0")
 	private Integer totalRatingCount;
 	@ColumnDefault("0")
@@ -50,8 +50,8 @@ public class TotalStatistics extends BaseTimeEntity {
 		this.totalVisitorCount++;
 	}
 
-	public void addTotalBeerViewCount() {
-		this.totalBeerViewCount++;
+	public void addTotalCoffeeViewCount() {
+		this.totalCoffeeViewCount++;
 	}
 
 	public void addTotalRatingCount() {

@@ -7,15 +7,15 @@ import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
-import be.domain.beercategory.entity.BeerCategory;
-import be.domain.beercategory.entity.BeerCategoryType;
-import be.domain.beertag.entity.BeerTag;
-import be.domain.beertag.entity.BeerTagType;
+import be.domain.coffeecategory.entity.CoffeeCategory;
+import be.domain.coffeecategory.entity.CoffeeCategoryType;
+import be.domain.coffeetag.entity.CoffeeTag;
+import be.domain.coffeetag.entity.CoffeeTagType;
 import be.domain.follow.repository.FollowQueryRepository;
 import be.domain.user.dto.UserDto;
 import be.domain.user.entity.User;
-import be.domain.user.entity.UserBeerCategory;
-import be.domain.user.entity.UserBeerTag;
+import be.domain.user.entity.UserCoffeeCategory;
+import be.domain.user.entity.UserCoffeeTag;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -36,12 +36,12 @@ public interface UserMapper {
 	}
 
 	default UserDto.UserInfoResponse userToInfoResponse(User user) {
-		List<String> userBeerTags = user.getUserBeerTags().stream().map(
-			userBeerTag -> userBeerTag.getBeerTag().getBeerTagType().toString()
+		List<String> userCoffeeTags = user.getUserCoffeeTags().stream().map(
+			userCoffeeTag -> userCoffeeTag.getCoffeeTag().getCoffeeTagType().toString()
 		).collect(Collectors.toList());
 
-		List<String> userBeerCategories = user.getUserBeerCategories().stream().map(
-			userBeerCategory -> userBeerCategory.getBeerCategory().getBeerCategoryType().toString()
+		List<String> userCoffeeCategories = user.getUserCoffeeCategories().stream().map(
+			userCoffeeCategory -> userCoffeeCategory.getCoffeeCategory().getCoffeeCategoryType().toString()
 		).collect(Collectors.toList());
 
 		return UserDto.UserInfoResponse.builder()
@@ -51,8 +51,8 @@ public interface UserMapper {
 			.gender(user.getGender())
 			.followerCount(user.getFollowerCount())
 			.followingCount(user.getFollowingCount())
-			.userBeerTags(userBeerTags)
-			.userBeerCategories(userBeerCategories)
+			.userCoffeeTags(userCoffeeTags)
+			.userCoffeeCategories(userCoffeeCategories)
 			.build();
 	}
 
@@ -61,11 +61,11 @@ public interface UserMapper {
 		user.putId(id);
 		user.putUserInfo(postInfo.getAge(), postInfo.getGender());
 
-		List<UserBeerTag> userBeerTags = getUserBeerTag(postInfo.getUserBeerTags());
-		user.putUserBeerTags(userBeerTags);
+		List<UserCoffeeTag> userCoffeeTags = getUserCoffeeTag(postInfo.getUserCoffeeTags());
+		user.putUserCoffeeTags(userCoffeeTags);
 
-		List<UserBeerCategory> userBeerCategories = getUserBeerCategory(postInfo.getUserBeerCategories());
-		user.putUserBeerCategories(userBeerCategories);
+		List<UserCoffeeCategory> userCoffeeCategories = getUserCoffeeCategory(postInfo.getUserCoffeeCategories());
+		user.putUserCoffeeCategories(userCoffeeCategories);
 
 		return user;
 	}
@@ -74,14 +74,14 @@ public interface UserMapper {
 		User user = new User();
 		user.edit(edit.getImageUrl(), edit.getNickname(), edit.getGender(), edit.getAge());
 
-		if (edit.getUserBeerTags() != null) {
-			List<UserBeerTag> userBeerTags = getUserBeerTag(edit.getUserBeerTags());
-			user.putUserBeerTags(userBeerTags);
+		if (edit.getUserCoffeeTags() != null) {
+			List<UserCoffeeTag> userCoffeeTags = getUserCoffeeTag(edit.getUserCoffeeTags());
+			user.putUserCoffeeTags(userCoffeeTags);
 		}
 
-		if (edit.getUserBeerCategories() != null) {
-			List<UserBeerCategory> userBeerCategories = getUserBeerCategory(edit.getUserBeerCategories());
-			user.putUserBeerCategories(userBeerCategories);
+		if (edit.getUserCoffeeCategories() != null) {
+			List<UserCoffeeCategory> userCoffeeCategories = getUserCoffeeCategory(edit.getUserCoffeeCategories());
+			user.putUserCoffeeCategories(userCoffeeCategories);
 		}
 
 		return user;
@@ -122,22 +122,22 @@ public interface UserMapper {
 		}).collect(Collectors.toList()));
 	}
 
-	private static List<UserBeerTag> getUserBeerTag(List<String> responses) {
+	private static List<UserCoffeeTag> getUserCoffeeTag(List<String> responses) {
 		return responses.stream().map(
-			response -> UserBeerTag.builder()
-				.beerTag(BeerTag.builder()
+			response -> UserCoffeeTag.builder()
+				.coffeeTag(CoffeeTag.builder()
 					// .id()
-					.beerTagType(BeerTagType.valueOf(response))
+					.coffeeTagType(CoffeeTagType.valueOf(response))
 					.build())
 				.build()).collect(Collectors.toList());
 	}
 
-	private static List<UserBeerCategory> getUserBeerCategory(List<String> responses) {
+	private static List<UserCoffeeCategory> getUserCoffeeCategory(List<String> responses) {
 		return responses.stream().map(
-			response -> UserBeerCategory.builder()
-				.beerCategory(BeerCategory.builder()
-					// .id(response.getBeerCategoryId())
-					.beerCategoryType(BeerCategoryType.valueOf(response))
+			response -> UserCoffeeCategory.builder()
+				.coffeeCategory(CoffeeCategory.builder()
+					// .id(response.getCoffeeCategoryId())
+					.coffeeCategoryType(CoffeeCategoryType.valueOf(response))
 					.build())
 				.build()).collect(Collectors.toList());
 	}

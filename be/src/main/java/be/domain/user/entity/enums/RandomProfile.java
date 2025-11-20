@@ -3,10 +3,10 @@ package be.domain.user.entity.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum RandomProfile {
-	ONE("https://getabeer.s3.ap-northeast-2.amazonaws.com/profileImage/randomprofile/1.png"),
-	TWO("https://getabeer.s3.ap-northeast-2.amazonaws.com/profileImage/randomprofile/2.png"),
-	THREE("https://getabeer.s3.ap-northeast-2.amazonaws.com/profileImage/randomprofile/3.png"),
-	FOUR("https://getabeer.s3.ap-northeast-2.amazonaws.com/profileImage/randomprofile/4.png");
+	ONE("https://getacoffee.s3.ap-northeast-2.amazonaws.com/profileImage/randomprofile/1.png"),
+	TWO("https://getacoffee.s3.ap-northeast-2.amazonaws.com/profileImage/randomprofile/2.png"),
+	THREE("https://getacoffee.s3.ap-northeast-2.amazonaws.com/profileImage/randomprofile/3.png"),
+	FOUR("https://getacoffee.s3.ap-northeast-2.amazonaws.com/profileImage/randomprofile/4.png");
 
 	private final String value;
 

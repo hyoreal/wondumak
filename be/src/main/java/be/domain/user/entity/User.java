@@ -24,7 +24,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
-import be.domain.beerwishlist.entity.BeerWishlist;
+import be.domain.coffeewishlist.entity.CoffeeWishlist;
 import be.domain.comment.entity.PairingComment;
 import be.domain.comment.entity.RatingComment;
 import be.domain.follow.entity.Follow;
@@ -101,35 +101,35 @@ public class User implements Serializable {
 		this.profileImage = profileImage;
 	}
 
-	/* UserBeerCategory Join */
+	/* UserCoffeeCategory Join */
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	private List<UserBeerCategory> userBeerCategories;
+	private List<UserCoffeeCategory> userCoffeeCategories;
 
-	/* User - UserBeerCategory 연관관계 편의 메서드 */
-	public void addUserBeerCategories(UserBeerCategory userBeerCategory) {
-		userBeerCategories.add(userBeerCategory);
+	/* User - UserCoffeeCategory 연관관계 편의 메서드 */
+	public void addUserCoffeeCategories(UserCoffeeCategory userCoffeeCategory) {
+		userCoffeeCategories.add(userCoffeeCategory);
 
-		if (userBeerCategory.getUser() != this) {
-			userBeerCategory.addUser(this);
+		if (userCoffeeCategory.getUser() != this) {
+			userCoffeeCategory.addUser(this);
 		}
 	}
 
-	/* UserBeerTag Join */
+	/* UserCoffeeTag Join */
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	private List<UserBeerTag> userBeerTags;
+	private List<UserCoffeeTag> userCoffeeTags;
 
-	/* User - UserBeerTag 연관관계 편의 메서드 */
-	public void addUserBeerTags(UserBeerTag userBeerTag) {
-		userBeerTags.add(userBeerTag);
+	/* User - UserCoffeeTag 연관관계 편의 메서드 */
+	public void addUserCoffeeTags(UserCoffeeTag userCoffeeTag) {
+		userCoffeeTags.add(userCoffeeTag);
 
-		if (userBeerTag.getUser() != this) {
-			userBeerTag.addUser(this);
+		if (userCoffeeTag.getUser() != this) {
+			userCoffeeTag.addUser(this);
 		}
 	}
 
-	/* BeerWishlist 1:N 양방향 매핑 */
+	/* CoffeeWishlist 1:N 양방향 매핑 */
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-	private List<BeerWishlist> beerWishlists;
+	private List<CoffeeWishlist> coffeeWishlists;
 
 	/* 🤎회원 - 맥주 평가 일대다 연관관계 */
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -272,12 +272,12 @@ public class User implements Serializable {
 		this.gender = gender;
 	}
 
-	public void putUserBeerTags(List<UserBeerTag> userBeerTags) {
-		this.userBeerTags = this.userBeerTags == null ? userBeerTags : this.userBeerTags;
+	public void putUserCoffeeTags(List<UserCoffeeTag> userCoffeeTags) {
+		this.userCoffeeTags = this.userCoffeeTags == null ? userCoffeeTags : this.userCoffeeTags;
 	}
 
-	public void putUserBeerCategories(List<UserBeerCategory> userBeerCategories) {
-		this.userBeerCategories = this.userBeerCategories == null ? userBeerCategories : this.userBeerCategories;
+	public void putUserCoffeeCategories(List<UserCoffeeCategory> userCoffeeCategories) {
+		this.userCoffeeCategories = this.userCoffeeCategories == null ? userCoffeeCategories : this.userCoffeeCategories;
 	}
 
 	public void putId(Long id) {

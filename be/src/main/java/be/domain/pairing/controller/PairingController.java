@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import be.domain.beer.entity.Beer;
-import be.domain.beer.service.BeerService;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.service.CoffeeService;
 import be.domain.pairing.dto.PairingRequestDto;
 import be.domain.pairing.dto.PairingResponseDto;
 import be.domain.pairing.mapper.PairingMapper;
 import be.domain.pairing.service.PairingService;
 import be.global.dto.MultiResponseDto;
-import be.global.dto.MultiResponseDtoWithBeerInfo;
+import be.global.dto.MultiResponseDtoWithCoffeeInfo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,12 +38,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/pairings")
 public class PairingController {
 	private final PairingService pairingService;
-	private final BeerService beerService;
+	private final CoffeeService coffeeService;
 	private final PairingMapper mapper;
 
-	public PairingController(PairingService pairingService, BeerService beerService, PairingMapper mapper) {
+	public PairingController(PairingService pairingService, CoffeeService coffeeService, PairingMapper mapper) {
 		this.pairingService = pairingService;
-		this.beerService = beerService;
+		this.coffeeService = coffeeService;
 		this.mapper = mapper;
 	}
 
@@ -57,7 +57,7 @@ public class PairingController {
 		log.info("post 내용 확인 : " + post.getCategory());
 		log.info("************************************************************");
 		String message = pairingService.create(mapper.pairingPostDtoToPairing(post),
-			files, post.getBeerId());
+			files, post.getCoffeeId());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(message);
 	}
@@ -91,15 +91,15 @@ public class PairingController {
 
 	/* 페어링 페이지 조회 */
 	@GetMapping("/page/{type}/{category}")
-	public ResponseEntity<MultiResponseDtoWithBeerInfo<PairingResponseDto.Total>> getPairingPageOrderByRecent(
+	public ResponseEntity<MultiResponseDtoWithCoffeeInfo<PairingResponseDto.Total>> getPairingPageOrderByRecent(
 		@PathVariable String type, @PathVariable String category,
-		@RequestParam Long beerId, @RequestParam Integer page, @RequestParam Integer size) {
+		@RequestParam Long coffeeId, @RequestParam Integer page, @RequestParam Integer size) {
 		Page<PairingResponseDto.Total> responses =
-			pairingService.getPairingPageOrderBy(beerId, type, category, page, size);
-		Beer beer = beerService.getBeer(beerId);
+			pairingService.getPairingPageOrderBy(coffeeId, type, category, page, size);
+		Coffee coffee = coffeeService.getCoffee(coffeeId);
 
 		return ResponseEntity.ok(
-			new MultiResponseDtoWithBeerInfo<PairingResponseDto.Total>(responses.getContent(), responses, beer)
+			new MultiResponseDtoWithCoffeeInfo<PairingResponseDto.Total>(responses.getContent(), responses, coffee)
 		);
 	}
 }

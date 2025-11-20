@@ -32,9 +32,9 @@ public class MailService {
 		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
 
 		helper.setTo(email);
-		helper.setSubject("Get A Beer 이메일 인증 코드입니다.");
+		helper.setSubject("Get A Coffee 이메일 인증 코드입니다.");
 		helper.setText("이메일 인증 코드: " + code, true);
-		helper.setFrom("getabeer0310@gmail.com", "Get A Beer");
+		helper.setFrom("getacoffee0310@gmail.com", "Get A Coffee");
 
 		return message;
 	}
@@ -71,9 +71,9 @@ public class MailService {
 		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
 
 		helper.setTo(email);
-		helper.setSubject("Get A Beer 소셜로그인 비밀번호 입니다.");
+		helper.setSubject("Get A Coffee 소셜로그인 비밀번호 입니다.");
 		helper.setText("임시 비밀번호를 절대 유출하지 마세요.\n 임시 비밀번호: " + password, true);
-		helper.setFrom("getabeer0310@gmail.com", "Get A Beer");
+		helper.setFrom("getacoffee0310@gmail.com", "Get A Coffee");
 
 		return message;
 	}

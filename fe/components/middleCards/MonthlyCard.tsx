@@ -6,9 +6,9 @@ import { userId } from '@/atoms/login';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 export interface MonthlyCardProps {
-  beerId: number;
+  coffeeId: number;
   korName: string;
-  beerDetailsTopTags: [string, string, string, string] | null;
+  coffeeDetailsTopTags: [string, string, string, string] | null;
   totalAverageStars: number;
   totalStarCount: number;
   thumbnail: string;
@@ -40,7 +40,7 @@ export default function MonthlyCard({
   };
   return (
     <div className="flex flex-col rounded-lg bg-white text-y-black border border-y-lightGray m-2">
-      <Link href={`/beer/${cardProps?.beerId}`}>
+      <Link href={`/coffee/${cardProps?.coffeeId}`}>
         <div className="flex">
           <div
             className={`flex justify-center items-center w-6 h-6 rounded-[5px] z-[5] m-1 ${
@@ -71,8 +71,8 @@ export default function MonthlyCard({
               </span>
             </div>
             <div className="flex flex-wrap">
-              {cardProps?.beerDetailsTopTags
-                ? cardProps?.beerDetailsTopTags.map(
+              {cardProps?.coffeeDetailsTopTags
+                ? cardProps?.coffeeDetailsTopTags.map(
                     (el: string, idx: number) => {
                       return <Tag key={idx}>{el}</Tag>;
                     }

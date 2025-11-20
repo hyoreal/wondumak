@@ -8,8 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import be.domain.beer.entity.Beer;
-import be.domain.beer.repository.BeerQueryRepository;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.repository.CoffeeQueryRepository;
 import be.domain.search.repository.SearchQueryRepository;
 import be.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -19,29 +19,29 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class SearchService {
-	private final BeerQueryRepository beerQueryRepository;
+	private final CoffeeQueryRepository coffeeQueryRepository;
 	private final SearchQueryRepository searchQueryRepository;
 
 	@Transactional(readOnly = true)
-	public Page<Beer> findBeersPageByQueryParam(String queryParam, Integer page) {
+	public Page<Coffee> findCoffeesPageByQueryParam(String queryParam, Integer page) {
 
 		PageRequest pageRequest = PageRequest.of(page - 1, 10);
 
-		Page<Beer> beerPage;
+		Page<Coffee> coffeePage;
 
 		if (queryParam.isEmpty()) {
-			beerPage = new PageImpl<>(new ArrayList<>());
+			coffeePage = new PageImpl<>(new ArrayList<>());
 		} else if (queryParam.charAt(0) == '*') {
-			beerPage = searchQueryRepository.findBeersPageByBeerCategoryQueryParam(queryParam, pageRequest);
+			coffeePage = searchQueryRepository.findCoffeesPageByCoffeeCategoryQueryParam(queryParam, pageRequest);
 		} else if (queryParam.charAt(0) == '#') {
-			beerPage = searchQueryRepository.findBeersPageByBeerTagQueryParam(queryParam, pageRequest);
+			coffeePage = searchQueryRepository.findCoffeesPageByCoffeeTagQueryParam(queryParam, pageRequest);
 		} else if (queryParam.charAt(0) == '&') {
-			beerPage = searchQueryRepository.findBeersPageByPairingCategoryQueryParam(queryParam, pageRequest);
+			coffeePage = searchQueryRepository.findCoffeesPageByPairingCategoryQueryParam(queryParam, pageRequest);
 		} else {
-			beerPage = searchQueryRepository.findBeersPageByQueryParam(queryParam, pageRequest);
+			coffeePage = searchQueryRepository.findCoffeesPageByQueryParam(queryParam, pageRequest);
 		}
 
-		return beerPage;
+		return coffeePage;
 	}
 
 	@Transactional(readOnly = true)

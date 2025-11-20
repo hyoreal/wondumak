@@ -2,37 +2,37 @@ package be.global.statistics.service;
 
 import org.springframework.stereotype.Service;
 
-import be.global.statistics.repository.BeerCategoryStatisticsQueryRepository;
-import be.global.statistics.repository.BeerStatisticsQueryRepository;
-import be.global.statistics.repository.BeerTagStatisticsQueryRepository;
+import be.global.statistics.repository.CoffeeCategoryStatisticsQueryRepository;
+import be.global.statistics.repository.CoffeeStatisticsQueryRepository;
+import be.global.statistics.repository.CoffeeTagStatisticsQueryRepository;
 import be.global.statistics.repository.PairingCategoryStatisticsQueryRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class StatisticsService {
-	private final BeerStatisticsQueryRepository beerStatisticsQueryRepository;
-	private final BeerCategoryStatisticsQueryRepository beerCategoryStatisticsQueryRepository;
-	private final BeerTagStatisticsQueryRepository beerTagStatisticsQueryRepository;
+	private final CoffeeStatisticsQueryRepository coffeeStatisticsQueryRepository;
+	private final CoffeeCategoryStatisticsQueryRepository coffeeCategoryStatisticsQueryRepository;
+	private final CoffeeTagStatisticsQueryRepository coffeeTagStatisticsQueryRepository;
 	private final PairingCategoryStatisticsQueryRepository pairingCategoryStatisticsQueryRepository;
 
 	public void createTotalStatistics() {
 
 	}
 
-	public void createBeerStatistics() {
-		beerStatisticsQueryRepository.createAndSaveBeerStatistics();
+	public void createCoffeeStatistics() {
+		coffeeStatisticsQueryRepository.createAndSaveCoffeeStatistics();
 	}
 
-	public void createBeerCategoryStatistics() {
-		beerCategoryStatisticsQueryRepository.createAndSaveBeerCategoryStatistics();
+	public void createCoffeeCategoryStatistics() {
+		coffeeCategoryStatisticsQueryRepository.createAndSaveCoffeeCategoryStatistics();
 	}
 
-	public void createBeerTagStatistics() {
-		beerTagStatisticsQueryRepository.createAndSaveBeerTagStatistics();
+	public void createCoffeeTagStatistics() {
+		coffeeTagStatisticsQueryRepository.createAndSaveCoffeeTagStatistics();
 	}
 
 	public void createPairingCategoryStatistics() {
-		pairingCategoryStatisticsQueryRepository.createAndSaveBeerTagStatistics();
+		pairingCategoryStatisticsQueryRepository.createAndSaveCoffeeTagStatistics();
 	}
 }

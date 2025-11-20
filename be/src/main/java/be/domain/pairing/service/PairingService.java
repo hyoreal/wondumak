@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import be.domain.beer.entity.Beer;
-import be.domain.beer.service.BeerService;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.service.CoffeeService;
 import be.domain.comment.repository.pairing.PairingCommentRepository;
 import be.domain.like.repository.PairingLikeRepository;
 import be.domain.pairing.dto.PairingResponseDto;
@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PairingService {
-	private final BeerService beerService;
+	private final CoffeeService coffeeService;
 	private final UserService userService;
 	private final ImageHandler imageHandler;
 	private final PairingRepository pairingRepository;
@@ -44,13 +44,13 @@ public class PairingService {
 	/* 페어링 등록 */
 	@Transactional
 	public String create(Pairing pairing, List<MultipartFile> files,
-		Long beerId) throws IOException {
+		Long coffeeId) throws IOException {
 
 		/* 존재하는 회원인지 확인 */
 		User user = userService.findLoginUser();
 
 		/* 존재하는 맥주인지 확인 */
-		Beer beer = beerService.findVerifiedBeer(beerId);
+		Coffee coffee = coffeeService.findVerifiedCoffee(coffeeId);
 
 		/* 이미지 저장하기 */
 		List<PairingImage> pairingImages;
@@ -61,7 +61,7 @@ public class PairingService {
 				throw new BusinessLogicException(ExceptionCode.IMAGE_SIZE_OVER);
 			}
 
-			pairingImages = imageHandler.createPairingImage(pairing, files, user.getId(), beer);
+			pairingImages = imageHandler.createPairingImage(pairing, files, user.getId(), coffee);
 		}
 
 		String thumbnail = "";
@@ -72,7 +72,7 @@ public class PairingService {
 		}
 
 		/* 페어링 등록하기 */
-		pairing.saveDefault(beer, user, thumbnail, pairingImages);
+		pairing.saveDefault(coffee, user, thumbnail, pairingImages);
 		pairingRepository.save(pairing);
 
 		return "맥주에 대한 페어링이 성공적으로 등록되었습니다.";
@@ -155,12 +155,12 @@ public class PairingService {
 
 	/* 페어링 페이지 조회*/
 	public Page<PairingResponseDto.Total> getPairingPageOrderBy(
-		Long beerId, String type, String category, Integer page, Integer size) {
+		Long coffeeId, String type, String category, Integer page, Integer size) {
 
 		User user = userService.getLoginUserReturnNull();
 
 		return stateHelper
-			.getPairingResponsePage(user, category, type, beerId,
+			.getPairingResponsePage(user, category, type, coffeeId,
 				PageRequest.of(page - 1, size), pairingRepository, pairingLikeRepository);
 	}
 

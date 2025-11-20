@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.mapstruct.Mapper;
 
-import be.domain.beertag.entity.BeerTagType;
+import be.domain.coffeetag.entity.CoffeeTagType;
 import be.domain.rating.dto.RatingRequestDto;
 import be.domain.rating.entity.RatingTag;
 
@@ -16,10 +16,10 @@ public interface RatingTagMapper {
 		}
 
 		return RatingTag.builder()
-			.color(BeerTagType.valueOf(post.getColor()))
-			.taste(BeerTagType.valueOf(post.getTaste()))
-			.flavor(BeerTagType.valueOf(post.getFlavor()))
-			.carbonation(BeerTagType.valueOf(post.getCarbonation()))
+			.color(CoffeeTagType.valueOf(post.getColor()))
+			.taste(CoffeeTagType.valueOf(post.getTaste()))
+			.flavor(CoffeeTagType.valueOf(post.getFlavor()))
+			.carbonation(CoffeeTagType.valueOf(post.getCarbonation()))
 			.build();
 	}
 
@@ -39,28 +39,28 @@ public interface RatingTagMapper {
 
 		if (color.equalsIgnoreCase("STRAW") || color.equalsIgnoreCase("GOLD")
 			|| color.equalsIgnoreCase("BROWN") || color.equalsIgnoreCase("BLACK")) {
-			tag.color(BeerTagType.valueOf(color));
+			tag.color(CoffeeTagType.valueOf(color));
 		} else if (color.equals("")) {
 			tag.color(null);
 		}
 
 		if (taste.equalsIgnoreCase("SWEET") || taste.equalsIgnoreCase("SOUR")
 			|| taste.equalsIgnoreCase("BITTER") || taste.equalsIgnoreCase("ROUGH")) {
-			tag.taste(BeerTagType.valueOf(taste));
+			tag.taste(CoffeeTagType.valueOf(taste));
 		} else if (taste.equals("")) {
 			tag.taste(null);
 		}
 
 		if (flavor.equalsIgnoreCase("FRUITY") || flavor.equalsIgnoreCase("FLOWER")
 			|| flavor.equalsIgnoreCase("MALTY") || flavor.equalsIgnoreCase("NO_SCENT")) {
-			tag.flavor(BeerTagType.valueOf(flavor));
+			tag.flavor(CoffeeTagType.valueOf(flavor));
 		} else if (flavor.equals("")) {
 			tag.flavor(null);
 		}
 
 		if (carbonation.equalsIgnoreCase("WEAK") || carbonation.equalsIgnoreCase("MIDDLE")
 			|| carbonation.equalsIgnoreCase("STRONG") || carbonation.equalsIgnoreCase("NO_CARBONATION")) {
-			tag.carbonation(BeerTagType.valueOf(carbonation));
+			tag.carbonation(CoffeeTagType.valueOf(carbonation));
 		} else if (carbonation.equals("")) {
 			tag.carbonation(null);
 		}

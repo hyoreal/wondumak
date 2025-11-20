@@ -24,7 +24,7 @@ public class PairingCategoryStatisticsQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 	private final PairingCategoryStatisticsRepository pairingCategoryStatisticsRepository;
 
-	public void createAndSaveBeerTagStatistics() {
+	public void createAndSaveCoffeeTagStatistics() {
 
 		List<Integer> countList = new ArrayList<>();
 

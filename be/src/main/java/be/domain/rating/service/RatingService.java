@@ -12,14 +12,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import be.domain.beer.entity.Beer;
-import be.domain.beer.entity.BeerBeerTag;
-import be.domain.beer.repository.BeerBeerTagQueryRepository;
-import be.domain.beer.repository.BeerBeerTagRepository;
-import be.domain.beer.service.BeerService;
-import be.domain.beertag.entity.BeerTag;
-import be.domain.beertag.entity.BeerTagType;
-import be.domain.beertag.service.BeerTagService;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.entity.CoffeeCoffeeTag;
+import be.domain.coffee.repository.CoffeeCoffeeTagQueryRepository;
+import be.domain.coffee.repository.CoffeeCoffeeTagRepository;
+import be.domain.coffee.service.CoffeeService;
+import be.domain.coffeetag.entity.CoffeeTag;
+import be.domain.coffeetag.entity.CoffeeTagType;
+import be.domain.coffeetag.service.CoffeeTagService;
 import be.domain.like.repository.RatingLikeRepository;
 import be.domain.rating.dto.RatingResponseDto;
 import be.domain.rating.entity.Rating;
@@ -38,40 +38,40 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class RatingService {
 	private final RatingRepository ratingRepository;
-	private final BeerService beerService;
-	private final BeerTagService beerTagService;
-	private final BeerBeerTagRepository beerBeerTagRepository;
-	private final BeerBeerTagQueryRepository beerBeerTagQueryRepository;
+	private final CoffeeService coffeeService;
+	private final CoffeeTagService coffeeTagService;
+	private final CoffeeCoffeeTagRepository coffeeCoffeeTagRepository;
+	private final CoffeeCoffeeTagQueryRepository coffeeCoffeeTagQueryRepository;
 	private final RatingTagRepository tagRepository;
 	private final UserService userService;
 	private final RatingLikeRepository ratingLikeRepository;
 
 	/* 맥주 평가 등록 */
 	@Transactional
-	public String create(Rating rating, Long beerId, RatingTag ratingTag) {
+	public String create(Rating rating, Long coffeeId, RatingTag ratingTag) {
 
 		/* 회원 정보 가져오기 */
 		User user = userService.findLoginUser();
 
 		/* 이미 평가를 입력했던 유저라면 입력할 수 없음 */
-		verifyExistUser(user.getId(), beerId);
+		verifyExistUser(user.getId(), coffeeId);
 
 		/* 0점은 줄 수 없음, MIN 은 Long 타입이라 여기서 한 번 거르기 : 소수점을 선언할 수 없음.. */
 		cannotZeroStar(rating.getStar());
 
 		/* 존재하는 맥주인지 확인 */
-		Beer beer = beerService.findVerifiedBeer(beerId);
+		Coffee coffee = coffeeService.findVerifiedCoffee(coffeeId);
 
 		ratingTag.saveRating(rating);
 		tagRepository.save(ratingTag);
 
 		/* 기본 설정 저장하기 */
-		rating.saveDefault(beer, user, ratingTag,
+		rating.saveDefault(coffee, user, ratingTag,
 			0, 0, new ArrayList<>());
 		ratingTag.saveRating(rating);
 
 		/* 다대다 연관관계 생성 및 저장 */
-		saveBeerBeerTags(beer, ratingTag.createBeerTagTypeList());
+		saveCoffeeCoffeeTags(coffee, ratingTag.createCoffeeTagTypeList());
 
 		ratingRepository.save(rating);
 
@@ -95,10 +95,10 @@ public class RatingService {
 		}
 
 		/* 레이팅 아이디로 맥주 조회 */
-		Beer findBeer = beerService.findBeerByRatingId(ratingId);
+		Coffee findCoffee = coffeeService.findCoffeeByRatingId(ratingId);
 
-		/* BeerBeerTag 찾아서 맥주/맥주 태그 연관 관계 끊고 삭제 */
-		deleteBeerBeerTags(findBeer, findRating.getRatingTag().createBeerTagTypeList());
+		/* CoffeeCoffeeTag 찾아서 맥주/맥주 태그 연관 관계 끊고 삭제 */
+		deleteCoffeeCoffeeTags(findCoffee, findRating.getRatingTag().createCoffeeTagTypeList());
 
 		/* 수정할 내용이 존재하면, 해당 정보 수정 후 저장*/
 		Optional.ofNullable(rating.getContent()).ifPresent(findRating::updateContent);
@@ -110,8 +110,8 @@ public class RatingService {
 
 		// findRating.updateTag(findTag);
 
-		/* 새로운 BeerBeerTag 생성 및 저장 */
-		saveBeerBeerTags(findBeer, ratingTag.createBeerTagTypeList());
+		/* 새로운 CoffeeCoffeeTag 생성 및 저장 */
+		saveCoffeeCoffeeTags(findCoffee, ratingTag.createCoffeeTagTypeList());
 
 		ratingRepository.save(findRating);
 
@@ -151,14 +151,14 @@ public class RatingService {
 	@Transactional
 	public String delete(long ratingId) {
 		Rating rating = findVerifiedRating(ratingId);
-		Beer findBeer = beerService.findBeerByRatingId(ratingId);
+		Coffee findCoffee = coffeeService.findCoffeeByRatingId(ratingId);
 
 		/* 삭제하려는 평가의 유저와 로그인한 유저가 일치하는지 확인 */
 		User user = rating.getUser();
 		User loginUser = userService.getLoginUser();
 		userService.checkUser(user.getId(), loginUser.getId());
 
-		deleteBeerBeerTags(findBeer, rating.getRatingTag().createBeerTagTypeList());
+		deleteCoffeeCoffeeTags(findCoffee, rating.getRatingTag().createCoffeeTagTypeList());
 		tagRepository.delete(rating.getRatingTag());
 
 		ratingRepository.delete(rating);
@@ -167,7 +167,7 @@ public class RatingService {
 	}
 
 	/* 맥주 평가 페이지 조회 */
-	public Page<RatingResponseDto.Total> getRatingPageOrderBy(Long beerId, Integer page, Integer size, String type) {
+	public Page<RatingResponseDto.Total> getRatingPageOrderBy(Long coffeeId, Integer page, Integer size, String type) {
 		Page<RatingResponseDto.Total> responses;
 		User user = userService.getLoginUserReturnNull();
 
@@ -175,15 +175,15 @@ public class RatingService {
 		if (user == null) {
 			switch (type) {
 				case "recency":
-					responses = ratingRepository.findRatingTotalResponseOrder(beerId,
+					responses = ratingRepository.findRatingTotalResponseOrder(coffeeId,
 						PageRequest.of(page - 1, size, Sort.by("ratingId")));
 					break;
 				case "mostlikes":
-					responses = ratingRepository.findRatingTotalResponseOrder(beerId,
+					responses = ratingRepository.findRatingTotalResponseOrder(coffeeId,
 						PageRequest.of(page - 1, size, Sort.by("likeCount")));
 					break;
 				case "mostcomments":
-					responses = ratingRepository.findRatingTotalResponseOrder(beerId,
+					responses = ratingRepository.findRatingTotalResponseOrder(coffeeId,
 						PageRequest.of(page - 1, size, Sort.by("commentCount")));
 					break;
 				default:
@@ -194,15 +194,15 @@ public class RatingService {
 		} else { /* 로그인 유저가 있는 경우 */
 			switch (type) {
 				case "recency":
-					responses = ratingRepository.findRatingTotalResponseOrder(beerId, user.getId(),
+					responses = ratingRepository.findRatingTotalResponseOrder(coffeeId, user.getId(),
 						PageRequest.of(page - 1, size, Sort.by("ratingId")));
 					break;
 				case "mostlikes":
-					responses = ratingRepository.findRatingTotalResponseOrder(beerId, user.getId(),
+					responses = ratingRepository.findRatingTotalResponseOrder(coffeeId, user.getId(),
 						PageRequest.of(page - 1, size, Sort.by("likeCount")));
 					break;
 				case "mostcomments":
-					responses = ratingRepository.findRatingTotalResponseOrder(beerId, user.getId(),
+					responses = ratingRepository.findRatingTotalResponseOrder(coffeeId, user.getId(),
 						PageRequest.of(page - 1, size, Sort.by("commentCount")));
 					break;
 				default:
@@ -219,10 +219,10 @@ public class RatingService {
 	//-------------------------------------------------------------------------------------------------------------
 
 	/* 태그 리스트 가져오기 */
-	private List<BeerTagType> getRatingTagList(Long ratingId) {
+	private List<CoffeeTagType> getRatingTagList(Long ratingId) {
 
 		RatingTag ratingTag = ratingRepository.findTagResponse(ratingId);
-		List<BeerTagType> tag = new ArrayList<>();
+		List<CoffeeTagType> tag = new ArrayList<>();
 		tag.add(ratingTag.getColor());
 		tag.add(ratingTag.getFlavor());
 		tag.add(ratingTag.getTaste());
@@ -239,8 +239,8 @@ public class RatingService {
 	}
 
 	/* 이미 평가를 등록한 적 있는 유저인지 확인 */
-	private void verifyExistUser(Long userId, Long beerId) {
-		Rating rating = ratingRepository.findRatingByUserId(userId, beerId);
+	private void verifyExistUser(Long userId, Long coffeeId) {
+		Rating rating = ratingRepository.findRatingByUserId(userId, coffeeId);
 
 		if (rating != null) {
 			throw new BusinessLogicException(ExceptionCode.RATING_USER_EXISTS);
@@ -288,38 +288,38 @@ public class RatingService {
 		}
 	}
 
-	private void saveBeerBeerTags(Beer findBeer, List<BeerTagType> beerTagTypeList) {
+	private void saveCoffeeCoffeeTags(Coffee findCoffee, List<CoffeeTagType> coffeeTagTypeList) {
 
-		beerTagTypeList
-			.forEach(beerTagType -> {
+		coffeeTagTypeList
+			.forEach(coffeeTagType -> {
 
-				BeerTag findBeerTag = beerTagService.findVerifiedBeerTagByBeerTagType(beerTagType);
+				CoffeeTag findCoffeeTag = coffeeTagService.findVerifiedCoffeeTagByCoffeeTagType(coffeeTagType);
 
-				BeerBeerTag createdBeerBeerTag =
-					BeerBeerTag.builder()
-						.beer(findBeer)
-						.beerTag(findBeerTag)
+				CoffeeCoffeeTag createdCoffeeCoffeeTag =
+					CoffeeCoffeeTag.builder()
+						.coffee(findCoffee)
+						.coffeeTag(findCoffeeTag)
 						.build();
 
-				beerBeerTagRepository.save(createdBeerBeerTag);
+				coffeeCoffeeTagRepository.save(createdCoffeeCoffeeTag);
 			});
 	}
 
-	private void deleteBeerBeerTags(Beer findBeer, List<BeerTagType> beerTagTypeList) {
+	private void deleteCoffeeCoffeeTags(Coffee findCoffee, List<CoffeeTagType> coffeeTagTypeList) {
 
-		beerTagTypeList
-			.forEach(beerTagType -> {
+		coffeeTagTypeList
+			.forEach(coffeeTagType -> {
 
-				BeerTag findBeerTag = beerTagService.findVerifiedBeerTagByBeerTagType(beerTagType);
+				CoffeeTag findCoffeeTag = coffeeTagService.findVerifiedCoffeeTagByCoffeeTagType(coffeeTagType);
 
-				// findBeerTag.subtractDailyCount(); // 카운트 빼주기
+				// findCoffeeTag.subtractDailyCount(); // 카운트 빼주기
 
-				BeerBeerTag beerBeerTag = beerBeerTagQueryRepository
-					.findBeerBeerTagByBeerAndBeerTagType(findBeer, beerTagType);
+				CoffeeCoffeeTag coffeeCoffeeTag = coffeeCoffeeTagQueryRepository
+					.findCoffeeCoffeeTagByCoffeeAndCoffeeTagType(findCoffee, coffeeTagType);
 
-				beerBeerTag.remove(findBeer, findBeerTag);
+				coffeeCoffeeTag.remove(findCoffee, findCoffeeTag);
 
-				beerBeerTagRepository.delete(beerBeerTag);
+				coffeeCoffeeTagRepository.delete(coffeeCoffeeTag);
 			});
 
 	}

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import be.domain.beer.dto.BeerDto;
-import be.domain.beer.entity.Beer;
-import be.domain.beer.mapper.BeerMapper;
+import be.domain.coffee.dto.CoffeeDto;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.mapper.CoffeeMapper;
 import be.domain.follow.repository.FollowQueryRepository;
 import be.domain.search.service.SearchService;
 import be.domain.user.dto.UserDto;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class SearchController {
 	private final SearchService searchService;
 	private final UserService userService;
-	private final BeerMapper beerMapper;
+	private final CoffeeMapper coffeeMapper;
 	private final UserMapper userMapper;
 	private final FollowQueryRepository followQueryRepository;
 
@@ -70,11 +70,11 @@ public class SearchController {
 
 		} else {
 
-			Page<Beer> beerPage = searchService.findBeersPageByQueryParam(queryParam, page);
+			Page<Coffee> coffeePage = searchService.findCoffeesPageByQueryParam(queryParam, page);
 
-			PageImpl<BeerDto.SearchResponse> responsePage = beerMapper.beersPageToSearchResponse(beerPage);
+			PageImpl<CoffeeDto.SearchResponse> responsePage = coffeeMapper.coffeesPageToSearchResponse(coffeePage);
 
-			return ResponseEntity.ok(new MultiResponseDto<>(responsePage.getContent(), beerPage));
+			return ResponseEntity.ok(new MultiResponseDto<>(responsePage.getContent(), coffeePage));
 		}
 	}
 }

@@ -9,6 +9,6 @@ import be.domain.pairing.repository.PairingRepository;
 import be.domain.user.entity.User;
 
 public interface PairingState {
-	Page<PairingResponseDto.Total> getPairingResponse(User user, String category, String type, Long beerId,
+	Page<PairingResponseDto.Total> getPairingResponse(User user, String category, String type, Long coffeeId,
 		Pageable pageable, PairingRepository pairingRepository, PairingLikeRepository pairingLikeRepository);
 }

@@ -17,29 +17,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import be.domain.beer.entity.Beer;
-import be.domain.beer.service.BeerService;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.service.CoffeeService;
 import be.domain.rating.dto.RatingRequestDto;
 import be.domain.rating.dto.RatingResponseDto;
 import be.domain.rating.entity.RatingTag;
 import be.domain.rating.mapper.RatingMapper;
 import be.domain.rating.mapper.RatingTagMapper;
 import be.domain.rating.service.RatingService;
-import be.global.dto.MultiResponseDtoWithBeerInfo;
+import be.global.dto.MultiResponseDtoWithCoffeeInfo;
 
 @Validated
 @RestController
 @RequestMapping("/api/ratings")
 public class RatingController {
 	private final RatingService ratingService;
-	private final BeerService beerService;
+	private final CoffeeService coffeeService;
 	private final RatingMapper ratingMapper;
 	private final RatingTagMapper tagMapper;
 
-	public RatingController(RatingService ratingService, BeerService beerService,
+	public RatingController(RatingService ratingService, CoffeeService coffeeService,
 		RatingMapper ratingMapper, RatingTagMapper tagMapper) {
 		this.ratingService = ratingService;
-		this.beerService = beerService;
+		this.coffeeService = coffeeService;
 		this.ratingMapper = ratingMapper;
 		this.tagMapper = tagMapper;
 	}
@@ -51,7 +51,7 @@ public class RatingController {
 
 		RatingTag ratingTag = tagMapper.ratingPostDtoToRatingTag(post);
 		String message = ratingService
-			.create(ratingMapper.ratingPostDtoToRating(post), post.getBeerId(), ratingTag);
+			.create(ratingMapper.ratingPostDtoToRating(post), post.getCoffeeId(), ratingTag);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(message);
 	}
@@ -85,12 +85,12 @@ public class RatingController {
 
 	/* 맥주 평가 페이지 조회 */
 	@GetMapping("/page/{type}")
-	public ResponseEntity<MultiResponseDtoWithBeerInfo<RatingResponseDto.Total>> getRatingPageOrderByRecently(
-		@PathVariable String type, @RequestParam Long beerId, @RequestParam Integer page, @RequestParam Integer size) {
-		Page<RatingResponseDto.Total> responses = ratingService.getRatingPageOrderBy(beerId, page, size, type);
-		Beer beer = beerService.getBeer(beerId);
+	public ResponseEntity<MultiResponseDtoWithCoffeeInfo<RatingResponseDto.Total>> getRatingPageOrderByRecently(
+		@PathVariable String type, @RequestParam Long coffeeId, @RequestParam Integer page, @RequestParam Integer size) {
+		Page<RatingResponseDto.Total> responses = ratingService.getRatingPageOrderBy(coffeeId, page, size, type);
+		Coffee coffee = coffeeService.getCoffee(coffeeId);
 
-		return ResponseEntity.ok(new MultiResponseDtoWithBeerInfo<RatingResponseDto.Total>(
-			responses.getContent(), responses, beer));
+		return ResponseEntity.ok(new MultiResponseDtoWithCoffeeInfo<RatingResponseDto.Total>(
+			responses.getContent(), responses, coffee));
 	}
 }

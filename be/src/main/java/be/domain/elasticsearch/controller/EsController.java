@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
-import be.domain.elasticsearch.entity.BeerDocument;
+import be.domain.elasticsearch.entity.CoffeeDocument;
 import be.domain.elasticsearch.service.ElasticsearchService;
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +24,7 @@ public class EsController {
 	private final ElasticsearchService elasticsearchService;
 
 	@GetMapping
-	public ResponseEntity<List<BeerDocument>> test(@RequestParam(value = "name") String name) {
+	public ResponseEntity<List<CoffeeDocument>> test(@RequestParam(value = "name") String name) {
 		return ResponseEntity.ok(elasticsearchService.searchByName(name));
 	}
 
@@ -35,7 +35,7 @@ public class EsController {
 
 	@PostMapping("/saveall")
 	public ResponseEntity<HttpStatus> saveAll() {
-		elasticsearchService.saveAllBeerDocuments();
+		elasticsearchService.saveAllCoffeeDocuments();
 		return ResponseEntity.ok().build();
 	}
 }

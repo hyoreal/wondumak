@@ -44,23 +44,23 @@ export default function EditRatingPage() {
           setFlavor(res.data.ratingTag[1]);
           setTaste(res.data.ratingTag[2]);
           setCarbonation(res.data.ratingTag[3]);
-          axios.get(`/api/beers/${res.data.beerId}`).then((res) => {
-            const beerIInfo: MiddleCardInfo = {
-              beerId: res.data.beerId,
-              thumbnail: res.data.beerDetailsBasic.thumbnail,
-              korName: res.data.beerDetailsBasic.korName,
-              category: res.data.beerCategoryTypes,
-              country: res.data.beerDetailsBasic.country,
-              abv: res.data.beerDetailsBasic.abv,
-              ibu: res.data.beerDetailsBasic.ibu,
+          axios.get(`/api/coffees/${res.data.coffeeId}`).then((res) => {
+            const coffeeIInfo: MiddleCardInfo = {
+              coffeeId: res.data.coffeeId,
+              thumbnail: res.data.coffeeDetailsBasic.thumbnail,
+              korName: res.data.coffeeDetailsBasic.korName,
+              category: res.data.coffeeCategoryTypes,
+              country: res.data.coffeeDetailsBasic.country,
+              roasting: res.data.coffeeDetailsBasic.roasting,
+              acidity: res.data.coffeeDetailsBasic.acidity,
               totalStarCount:
-                res.data.beerDetailsCounts.totalStarCount ||
-                res.data.beerDetailsCounts.femaleStarCount +
-                  res.data.beerDetailsCounts.maleStarCount,
-              totalAverageStars: res.data.beerDetailsStars.totalAverageStars,
-              beerTags: res.data.beerDetailsTopTags || [],
+                res.data.coffeeDetailsCounts.totalStarCount ||
+                res.data.coffeeDetailsCounts.femaleStarCount +
+                  res.data.coffeeDetailsCounts.maleStarCount,
+              totalAverageStars: res.data.coffeeDetailsStars.totalAverageStars,
+              coffeeTags: res.data.coffeeDetailsTopTags || [],
             };
-            setCardProps(beerIInfo);
+            setCardProps(coffeeIInfo);
           });
         })
         .catch((err) => console.log(err));
@@ -69,7 +69,7 @@ export default function EditRatingPage() {
 
   const handleSubmit = () => {
     const reqBody = {
-      beerId: 1,
+      coffeeId: 1,
       star,
       content,
       color: TagMatcherToEng(color),

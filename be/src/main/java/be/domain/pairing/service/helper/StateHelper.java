@@ -15,7 +15,7 @@ public class StateHelper {
 		state = new GetAllUserNull();
 	}
 
-	public Page<PairingResponseDto.Total> getPairingResponsePage(User user, String category, String type, Long beerId,
+	public Page<PairingResponseDto.Total> getPairingResponsePage(User user, String category, String type, Long coffeeId,
 		Pageable pageable, PairingRepository pairingRepository, PairingLikeRepository pairingLikeRepository) {
 
 		if (!userIsNull(user) && !categoryIsAll(category)) { /* 유저가 존재하고, 카테고리가 존재한다면 */
@@ -29,7 +29,7 @@ public class StateHelper {
 		}
 
 		return state
-			.getPairingResponse(user, category, type, beerId, pageable, pairingRepository, pairingLikeRepository);
+			.getPairingResponse(user, category, type, coffeeId, pageable, pairingRepository, pairingLikeRepository);
 	}
 
 	private void changeState(final PairingState state) {

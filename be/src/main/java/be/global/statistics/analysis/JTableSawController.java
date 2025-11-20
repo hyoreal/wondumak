@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import be.global.statistics.repository.BeerCategoryStatisticsQueryRepository;
-import be.global.statistics.repository.BeerStatisticsQueryRepository;
-import be.global.statistics.repository.BeerTagStatisticsQueryRepository;
-import be.global.statistics.repository.BeerTagStatisticsRepository;
+import be.global.statistics.repository.CoffeeCategoryStatisticsQueryRepository;
+import be.global.statistics.repository.CoffeeStatisticsQueryRepository;
+import be.global.statistics.repository.CoffeeTagStatisticsQueryRepository;
+import be.global.statistics.repository.CoffeeTagStatisticsRepository;
 import be.global.statistics.repository.PairingCategoryStatisticsQueryRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -18,14 +18,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JTableSawController {
 	private final JTableSawService jTableSawService;
-	private final BeerTagStatisticsQueryRepository beerTagStatisticsQueryRepository;
-	private final BeerStatisticsQueryRepository beerStatisticsQueryRepository;
+	private final CoffeeTagStatisticsQueryRepository coffeeTagStatisticsQueryRepository;
+	private final CoffeeStatisticsQueryRepository coffeeStatisticsQueryRepository;
 	private final PairingCategoryStatisticsQueryRepository pairingCategoryStatisticsQueryRepository;
-	private final BeerCategoryStatisticsQueryRepository beerCategoryStatisticsQueryRepository;
+	private final CoffeeCategoryStatisticsQueryRepository coffeeCategoryStatisticsQueryRepository;
 
 	@GetMapping("/test")
 	public void test() {
-		beerStatisticsQueryRepository.createAndSaveBeerStatistics();
+		coffeeStatisticsQueryRepository.createAndSaveCoffeeStatistics();
 	}
 
 	@GetMapping("/statistics")
