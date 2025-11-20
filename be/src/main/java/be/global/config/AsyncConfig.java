@@ -17,7 +17,7 @@ public class AsyncConfig extends AsyncConfigurerSupport {
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(50);
         executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("Beer-");
+        executor.setThreadNamePrefix("Coffee-");
         executor.initialize();
         return executor;
     }

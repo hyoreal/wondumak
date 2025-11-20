@@ -25,35 +25,30 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import be.domain.beer.controller.BeerController;
-import be.domain.beer.dto.BeerDto;
-import be.domain.beer.entity.Beer;
-import be.domain.beer.entity.BeerDetailsBestRating;
-import be.domain.beer.entity.BeerDetailsStars;
-import be.domain.beer.entity.MonthlyBeer;
-import be.domain.beer.entity.WeeklyBeer;
-import be.domain.beer.entity.WeeklyBeerCategory;
-import be.domain.beer.repository.BeerRepository;
-import be.domain.beer.repository.MonthlyBeerRepository;
-import be.domain.beer.repository.WeeklyBeerRepository;
-import be.domain.beer.service.BeerService;
-import be.domain.beercategory.dto.BeerCategoryDto;
-import be.domain.beercategory.entity.BeerCategory;
-import be.domain.beercategory.entity.BeerCategoryType;
-import be.domain.beercategory.repository.BeerCategoryRepository;
-import be.domain.beercategory.service.BeerCategoryService;
-import be.domain.beertag.entity.BeerTag;
-import be.domain.beertag.entity.BeerTagType;
-import be.domain.beertag.repository.BeerTagRepository;
-import be.domain.beertag.service.BeerTagService;
-import be.domain.chat.redis.entity.RedisChatRoom;
-import be.domain.chat.redis.repository.RedisChatRepository;
-import be.domain.chat.redis.repository.RedisRoomRepository;
-import be.domain.chat.redis.service.RedisRoomService;
-import be.domain.chat.redis.service.RedisSubscriber;
+import be.domain.coffee.controller.CoffeeController;
+import be.domain.coffee.dto.CoffeeDto;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.entity.CoffeeDetailsBestRating;
+import be.domain.coffee.entity.CoffeeDetailsStars;
+import be.domain.coffee.entity.MonthlyCoffee;
+import be.domain.coffee.entity.WeeklyCoffee;
+import be.domain.coffee.entity.WeeklyCoffeeCategory;
+import be.domain.coffee.repository.CoffeeRepository;
+import be.domain.coffee.repository.MonthlyCoffeeRepository;
+import be.domain.coffee.repository.WeeklyCoffeeRepository;
+import be.domain.coffee.service.CoffeeService;
+import be.domain.coffeecategory.dto.CoffeeCategoryDto;
+import be.domain.coffeecategory.entity.CoffeeCategory;
+import be.domain.coffeecategory.entity.CoffeeCategoryType;
+import be.domain.coffeecategory.repository.CoffeeCategoryRepository;
+import be.domain.coffeecategory.service.CoffeeCategoryService;
+import be.domain.coffeetag.entity.CoffeeTag;
+import be.domain.coffeetag.entity.CoffeeTagType;
+import be.domain.coffeetag.repository.CoffeeTagRepository;
+import be.domain.coffeetag.service.CoffeeTagService;
 import be.domain.user.entity.User;
-import be.domain.user.entity.UserBeerCategory;
-import be.domain.user.entity.UserBeerTag;
+import be.domain.user.entity.UserCoffeeCategory;
+import be.domain.user.entity.UserCoffeeTag;
 import be.domain.user.entity.enums.Age;
 import be.domain.user.entity.enums.Gender;
 import be.domain.user.entity.enums.RandomProfile;
@@ -79,33 +74,31 @@ public class Init {
 
 	@Bean
 	@Transactional
-	CommandLineRunner stubInit(BeerController beerController, BeerService beerService,
-		BeerRepository beerRepository, BeerTagService beerTagService,
-		BeerCategoryRepository beerCategoryRepository, UserRepository userRepository,
-		BeerTagRepository beerTagRepository, TotalStatisticsRepository totalStatisticsRepository,
-		BeerCategoryService beerCategoryService, MonthlyBeerRepository monthlyBeerRepository,
-		WeeklyBeerRepository weeklyBeerRepository, RedisChatRepository chatRepository,
-		RedisRoomRepository roomRepository, Map<String, ChannelTopic> topics,
-		RedisMessageListenerContainer redisMessageListener, RedisSubscriber subscriber) throws IOException {
+	CommandLineRunner stubInit(CoffeeController coffeeController, CoffeeService coffeeService,
+		CoffeeRepository coffeeRepository, CoffeeTagService coffeeTagService,
+		CoffeeCategoryRepository coffeeCategoryRepository, UserRepository userRepository,
+		CoffeeTagRepository coffeeTagRepository, TotalStatisticsRepository totalStatisticsRepository,
+		CoffeeCategoryService coffeeCategoryService, MonthlyCoffeeRepository monthlyCoffeeRepository,
+		WeeklyCoffeeRepository weeklyCoffeeRepository) throws IOException {
 
 		for (int i = 0; i < 8; i++) {
-			BeerCategory beerCategory = BeerCategory.builder()
-				.beerCategoryType(BeerCategoryType.values()[i])
+			CoffeeCategory coffeeCategory = CoffeeCategory.builder()
+				.coffeeCategoryType(CoffeeCategoryType.values()[i])
 				.build();
-			beerCategoryRepository.save(beerCategory);
+			coffeeCategoryRepository.save(coffeeCategory);
 		}
 
 		for (int i = 0; i < 16; i++) {
-			BeerTag beerTag = BeerTag.builder()
-				.beerTagType(BeerTagType.values()[i])
+			CoffeeTag coffeeTag = CoffeeTag.builder()
+				.coffeeTagType(CoffeeTagType.values()[i])
 				.build();
-			beerTagRepository.save(beerTag);
+			coffeeTagRepository.save(coffeeTag);
 		}
 
 		for (int i = 0; i < 1; i++) {
 			TotalStatistics totalStatistics =
 				TotalStatistics.builder()
-					.totalBeerViewCount(0)
+					.totalCoffeeViewCount(0)
 					.totalPairingCount(0)
 					.totalRatingCount(0)
 					.totalVisitorCount(0)
@@ -121,11 +114,11 @@ public class Init {
 
 		ClassLoader classLoader = getClass().getClassLoader();
 
-		// String FILE_PATH = "src/main/java/be/global/init/Get_A_Beer_Products.csv";
+		// String FILE_PATH = "src/main/java/be/global/init/Wondumak_Products.csv";
 
 		List<List<String>> csvList = new ArrayList<List<String>>();
 
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Get_A_Beer_Products.csv");
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Wondumak_Products.csv");
 
 		File csv = convertInputStreamToFile(inputStream);
 		// File csv = new File(FILE_PATH);
@@ -154,10 +147,10 @@ public class Init {
 			}
 		}
 
-		for (int i = 1; i < 220; i++) {
+		for (int i = 1; i < csvList.size(); i++) {
 
-			BeerDetailsStars beerDetailsStars =
-				BeerDetailsStars.builder()
+			CoffeeDetailsStars coffeeDetailsStars =
+				CoffeeDetailsStars.builder()
 					.totalAverageStars(0.0)
 					.femaleAverageStars(0.0)
 					.maleAverageStars(0.0)
@@ -165,49 +158,46 @@ public class Init {
 
 			List<String> list = csvList.get(i);
 
-			BeerDto.Post.PostBuilder postBuilder = BeerDto.Post.builder();
+			CoffeeDto.Post.PostBuilder postBuilder = CoffeeDto.Post.builder();
 
 			postBuilder.korName(list.get(0));
 			postBuilder.engName(list.get(1));
 			postBuilder.country(list.get(2));
 			if (!list.get(4).contains("")) {
-				postBuilder.beerCategories(List.of(
-					BeerCategoryDto.Response.builder()
-						// .beerCategoryId((long)BeerCategoryType.valueOf(list.get(3)).ordinal() + 1)
-						.beerCategoryType(BeerCategoryType.valueOf(list.get(3)))
+				postBuilder.coffeeCategories(List.of(
+					CoffeeCategoryDto.Response.builder()
+						.coffeeCategoryType(CoffeeCategoryType.valueOf(list.get(3)))
 						.build(),
-					BeerCategoryDto.Response.builder()
-						// .beerCategoryId((long)BeerCategoryType.valueOf(list.get(4)).ordinal() + 1)
-						.beerCategoryType(BeerCategoryType.valueOf(list.get(4)))
+					CoffeeCategoryDto.Response.builder()
+						.coffeeCategoryType(CoffeeCategoryType.valueOf(list.get(4)))
 						.build()
 				));
 			} else {
-				postBuilder.beerCategories(List.of(
-					BeerCategoryDto.Response.builder()
-						// .beerCategoryId((long)BeerCategoryType.valueOf(list.get(3)).ordinal() + 1)
-						.beerCategoryType(BeerCategoryType.valueOf(list.get(3)))
+				postBuilder.coffeeCategories(List.of(
+					CoffeeCategoryDto.Response.builder()
+						.coffeeCategoryType(CoffeeCategoryType.valueOf(list.get(3)))
 						.build()));
 			}
 			if (list.get(5).isEmpty()) {
-				postBuilder.abv(0.0);
+				postBuilder.roasting(0.0);
 			} else {
-				postBuilder.abv(Double.valueOf(list.get(5)));
+				postBuilder.roasting(Double.valueOf(list.get(5)));
 			}
 			if (!list.get(6).isBlank()) {
-				postBuilder.ibu(Integer.valueOf(list.get(6)));
+				postBuilder.acidity(Integer.valueOf(list.get(6)));
 			}
 			postBuilder.thumbnail(list.get(7));
 
-			beerController.postBeer(postBuilder.build());
+			coffeeController.postCoffee(postBuilder.build());
 
-			Beer findBeer = beerService.findVerifiedBeer((long)i);
+			Coffee findCoffee = coffeeService.findVerifiedCoffee((long)i);
 
-			findBeer.addBeerDetailsStars(beerDetailsStars);
+			findCoffee.addCoffeeDetailsStars(coffeeDetailsStars);
 
-			findBeer.getBeerDetailsStatistics()
+			findCoffee.getCoffeeDetailsStatistics()
 				.updateBestPairingCategory(pairingCategoryList.get((int)((Math.random() * 7))));
 
-			beerRepository.save(findBeer);
+			coffeeRepository.save(findCoffee);
 		}
 
 		/*
@@ -216,14 +206,14 @@ public class Init {
 		for (int i = 0; i < 5; i++) {
 			Long rand = (long)(Math.random() * 219 + 1);
 
-			Beer findBeer = beerService.findVerifiedBeer(rand);
+			Coffee findCoffee = coffeeService.findVerifiedCoffee(rand);
 
-			MonthlyBeer monthlyBeer = MonthlyBeer.builder().build();
+			MonthlyCoffee monthlyCoffee = MonthlyCoffee.builder().build();
 
-			monthlyBeer.create(findBeer);
+			monthlyCoffee.create(findCoffee);
 
-			BeerDetailsBestRating bestRating =
-				BeerDetailsBestRating.builder()
+			CoffeeDetailsBestRating bestRating =
+				CoffeeDetailsBestRating.builder()
 					.bestRatingId(rand)
 					.bestUserId((long)i)
 					.bestNickname("닉네임 " + i)
@@ -233,33 +223,33 @@ public class Init {
 					.bestLikeCount(25)
 					.build();
 
-			monthlyBeer.addBestRating(bestRating);
+			monthlyCoffee.addBestRating(bestRating);
 
-			monthlyBeerRepository.save(monthlyBeer);
+			monthlyCoffeeRepository.save(monthlyCoffee);
 		}
 
 		/*
 		 * WEEKLY BEER STUB DATA
 		 */
 		for (int i = 0; i < 5; i++) {
-			Long rand = (long)(Math.random() * 219 + 1);
+			Long rand = (long)(Math.random() * (csvList.size() - 1) + 1);
 
-			Beer findBeer = beerService.findVerifiedBeer(rand);
+			Coffee findCoffee = coffeeService.findVerifiedCoffee(rand);
 
-			WeeklyBeerCategory weeklyBeerCategory = new WeeklyBeerCategory("ALE", "DUNKEL");
+			WeeklyCoffeeCategory weeklyCoffeeCategory = new WeeklyCoffeeCategory("ARABICA", "ROBUSTA");
 
-			WeeklyBeer.WeeklyBeerBuilder weeklyBeer = WeeklyBeer.builder();
+			WeeklyCoffee.WeeklyCoffeeBuilder weeklyCoffee = WeeklyCoffee.builder();
 
-			weeklyBeer.beerId(findBeer.getId());
-			weeklyBeer.korName(findBeer.getBeerDetailsBasic().getKorName());
-			weeklyBeer.country(findBeer.getBeerDetailsBasic().getCountry());
-			weeklyBeer.thumbnail(findBeer.getBeerDetailsBasic().getThumbnail());
-			weeklyBeer.weeklyBeerCategory(weeklyBeerCategory);
-			weeklyBeer.abv(findBeer.getBeerDetailsBasic().getAbv());
-			weeklyBeer.ibu(findBeer.getBeerDetailsBasic().getIbu());
-			weeklyBeer.averageStar(findBeer.getBeerDetailsStars().getTotalAverageStars());
+			weeklyCoffee.coffeeId(findCoffee.getId());
+			weeklyCoffee.korName(findCoffee.getCoffeeDetailsBasic().getKorName());
+			weeklyCoffee.country(findCoffee.getCoffeeDetailsBasic().getCountry());
+			weeklyCoffee.thumbnail(findCoffee.getCoffeeDetailsBasic().getThumbnail());
+			weeklyCoffee.weeklyCoffeeCategory(weeklyCoffeeCategory);
+			weeklyCoffee.roasting(findCoffee.getCoffeeDetailsBasic().getRoasting());
+			weeklyCoffee.acidity(findCoffee.getCoffeeDetailsBasic().getAcidity());
+			weeklyCoffee.averageStar(findCoffee.getCoffeeDetailsStars().getTotalAverageStars());
 
-			weeklyBeerRepository.save(weeklyBeer.build());
+			weeklyCoffeeRepository.save(weeklyCoffee.build());
 		}
 
 		/*
@@ -269,37 +259,37 @@ public class Init {
 		//
 		// 	int rand7 = (int)(Math.random() * 7);
 		//
-		// 	BeerCategoryDto.Response beerCategoryDto =
-		// 		BeerCategoryDto.Response.builder()
-		// 			.beerCategoryId((long)rand7 + 1)
-		// 			.beerCategoryType(BeerCategoryType.values()[rand7])
+		// 	CoffeeCategoryDto.Response coffeeCategoryDto =
+		// 		CoffeeCategoryDto.Response.builder()
+		// 			.coffeeCategoryId((long)rand7 + 1)
+		// 			.coffeeCategoryType(CoffeeCategoryType.values()[rand7])
 		// 			.build();
 		//
-		// 	BeerDto.Post postBeer =
-		// 		BeerDto.Post.builder()
+		// 	CoffeeDto.Post postCoffee =
+		// 		CoffeeDto.Post.builder()
 		// 			.korName("한글 이름" + i)
 		// 			.engName("EngName" + i)
 		// 			.country("Germany")
-		// 			.beerCategories(List.of(beerCategoryDto))
+		// 			.coffeeCategories(List.of(coffeeCategoryDto))
 		// 			.thumbnail("썸네일 이미지 경로" + i)
 		// 			.abv(4.5)
 		// 			.ibu(20)
 		// 			.build();
 		//
-		// 	BeerDetailsStars beerDetailsStars =
-		// 		BeerDetailsStars.builder()
+		// 	CoffeeDetailsStars coffeeDetailsStars =
+		// 		CoffeeDetailsStars.builder()
 		// 			.totalAverageStars((double)(int)((Math.random() * 5) * 100) / 100)
 		// 			.femaleAverageStars((double)(int)((Math.random() * 5) * 100) / 100)
 		// 			.maleAverageStars((double)(int)((Math.random() * 5) * 100) / 100)
 		// 			.build();
 		//
-		// 	beerController.postBeer(postBeer);
+		// 	coffeeController.postCoffee(postCoffee);
 		//
-		// 	Beer findBeer = beerService.findVerifiedBeer((long)i);
-		// 	findBeer.addBeerDetailsCounts(BEER_DETAILS_COUNTS);
-		// 	findBeer.addBeerDetailsStars(beerDetailsStars);
+		// 	Coffee findCoffee = coffeeService.findVerifiedCoffee((long)i);
+		// 	findCoffee.addCoffeeDetailsCounts(BEER_DETAILS_COUNTS);
+		// 	findCoffee.addCoffeeDetailsStars(coffeeDetailsStars);
 		//
-		// 	beerRepository.save(findBeer);
+		// 	coffeeRepository.save(findCoffee);
 		// }
 
 		/*
@@ -309,10 +299,10 @@ public class Init {
 		//
 		// 	RatingRequestDto.Post ratingPost = RatingRequestDto.Post
 		// 		.builder()
-		// 		.beerId((long)(Math.random() * 30) + 1)
+		// 		.coffeeId((long)(Math.random() * 30) + 1)
 		// 		.
 		//
-		// 	private Long beerId;
+		// 	private Long coffeeId;
 		// 	private String nickname;
 		// 	private String content;
 		// 	private Double star;
@@ -339,27 +329,27 @@ public class Init {
 
 			// user.putUserInfo(Age.values()[(int)(Math.random() * 6)], Gender.values()[(int)(Math.random() * 3)]);
 			user.putUserInfo(Age.values()[(int)(Math.random() * 6)], Gender.MALE);
-			user.putUserBeerTags(new ArrayList<>());
+			user.putUserCoffeeTags(new ArrayList<>());
 
 			for (int j = 0; j < 4; j++) {
-				UserBeerTag userBeerTag =
-					UserBeerTag.builder()
-						.beerTag(beerTagService.findVerifiedBeerTag((long)(Math.random() * 16) + 1))
+				UserCoffeeTag userCoffeeTag =
+					UserCoffeeTag.builder()
+						.coffeeTag(coffeeTagService.findVerifiedCoffeeTag((long)(Math.random() * 16) + 1))
 						.user(user)
 						.build();
-				user.addUserBeerTags(userBeerTag);
+				user.addUserCoffeeTags(userCoffeeTag);
 			}
 
-			user.putUserBeerCategories(new ArrayList<>());
+			user.putUserCoffeeCategories(new ArrayList<>());
 
 			for (int j = 0; j < 2; j++) {
-				UserBeerCategory userBeerCategory =
-					UserBeerCategory.builder()
-						.beerCategory(beerCategoryService.findVerifiedBeerCategoryById((long)(Math.random() * 7) + 1))
+				UserCoffeeCategory userCoffeeCategory =
+					UserCoffeeCategory.builder()
+						.coffeeCategory(coffeeCategoryService.findVerifiedCoffeeCategoryById((long)(Math.random() * 7) + 1))
 						.user(user)
 						.build();
 
-				user.addUserBeerCategories(userBeerCategory);
+				user.addUserCoffeeCategories(userCoffeeCategory);
 			}
 			userRepository.save(user);
 		}
@@ -378,49 +368,29 @@ public class Init {
 
 			// user.putUserInfo(Age.values()[(int)(Math.random() * 6)], Gender.values()[(int)(Math.random() * 3)]);
 			user.putUserInfo(Age.values()[(int)(Math.random() * 6)], Gender.MALE);
-			user.putUserBeerTags(new ArrayList<>());
+			user.putUserCoffeeTags(new ArrayList<>());
 
 			for (int j = 0; j < 4; j++) {
-				UserBeerTag userBeerTag =
-					UserBeerTag.builder()
-						.beerTag(beerTagService.findVerifiedBeerTag((long)(Math.random() * 16) + 1))
+				UserCoffeeTag userCoffeeTag =
+					UserCoffeeTag.builder()
+						.coffeeTag(coffeeTagService.findVerifiedCoffeeTag((long)(Math.random() * 16) + 1))
 						.user(user)
 						.build();
-				user.addUserBeerTags(userBeerTag);
+				user.addUserCoffeeTags(userCoffeeTag);
 			}
 
-			user.putUserBeerCategories(new ArrayList<>());
+			user.putUserCoffeeCategories(new ArrayList<>());
 
 			for (int j = 0; j < 2; j++) {
-				UserBeerCategory userBeerCategory =
-					UserBeerCategory.builder()
-						.beerCategory(beerCategoryService.findVerifiedBeerCategoryById((long)(Math.random() * 7) + 1))
+				UserCoffeeCategory userCoffeeCategory =
+					UserCoffeeCategory.builder()
+						.coffeeCategory(coffeeCategoryService.findVerifiedCoffeeCategoryById((long)(Math.random() * 7) + 1))
 						.user(user)
 						.build();
 
-				user.addUserBeerCategories(userBeerCategory);
+				user.addUserCoffeeCategories(userCoffeeCategory);
 			}
 			userRepository.save(user);
-
-			RedisChatRoom chatRoom = chatRepository.isChatRoom(user.getId());
-			if (chatRoom == null) {
-				RedisChatRoom redisChatRoom = RedisChatRoom.create(user);
-				String roomId = "room" + Objects.requireNonNull(redisChatRoom).getId();
-
-				if (!topics.containsKey(roomId)) {
-					ChannelTopic channelTopic = new ChannelTopic(roomId);
-					redisMessageListener.addMessageListener(subscriber, channelTopic);
-					topics.put(roomId, channelTopic);
-
-					/* 관리자를 수동으로 구독자를 만드는 방법 ? */
-					// List<User> findAdmin = userService.findAdminUser();
-					// for (User value : findAdmin) {
-					// 	redisMessageListener.setSubscriptionExecutor();
-					// }
-				}
-
-				roomRepository.save(Objects.requireNonNull(redisChatRoom));
-			}
 		}
 
 		return null;

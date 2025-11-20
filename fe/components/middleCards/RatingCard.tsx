@@ -1,5 +1,5 @@
 export interface RatingCardProps {
-  beerId: number;
+  coffeeId: number;
   ratingId: number;
   korName: string;
   userId: number;

@@ -28,8 +28,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import be.domain.beer.entity.Beer;
-import be.domain.beer.repository.BeerQueryRepository;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.repository.CoffeeQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class VisionService {
-	private final BeerQueryRepository beerQueryRepository;
+	private final CoffeeQueryRepository coffeeQueryRepository;
 
 	public List<String> getSimilarProductsFile(MultipartFile multipartFile) throws IOException {
 
@@ -87,8 +87,8 @@ public class VisionService {
 		}
 	}
 
-	public List<Beer> findBeersListByImage(List<String> engNameList) {
-		return beerQueryRepository.findBeersListByImage(engNameList);
+	public List<Coffee> findCoffeesListByImage(List<String> engNameList) {
+		return coffeeQueryRepository.findCoffeesListByImage(engNameList);
 	}
 
 }

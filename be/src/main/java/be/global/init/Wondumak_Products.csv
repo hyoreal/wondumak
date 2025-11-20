@@ -1,0 +1,31 @@
+kor_name,eng_name,country,coffee_category_1,coffee_category_2,abv,ibu,thumbnail
+예가체프 G2,Yirgacheffe G2,ETHIOPIA,ARABICA,FRUIT,4.0,30,https://example.com/coffee1.jpg
+수프리모,Supremo,COLOMBIA,ARABICA,NUTTY,3.5,20,https://example.com/coffee2.jpg
+안티구아,Antigua,GUATEMALA,ARABICA,SMOKY,3.8,25,https://example.com/coffee3.jpg
+케냐 AA,Kenya AA,KENYA,ARABICA,FRUIT,4.2,35,https://example.com/coffee4.jpg
+블루마운틴,Blue Mountain,JAMAICA,ARABICA,BALANCED,3.0,15,https://example.com/coffee5.jpg
+코나,Kona,USA,ARABICA,SWEET,3.2,18,https://example.com/coffee6.jpg
+만델링,Mandheling,INDONESIA,ARABICA,HEAVY_BODY,4.5,10,https://example.com/coffee7.jpg
+타라주,Tarrazu,COSTA RICA,ARABICA,ACIDITY,3.7,28,https://example.com/coffee8.jpg
+산토스,Santos,BRAZIL,ARABICA,NUTTY,3.3,12,https://example.com/coffee9.jpg
+로부스타,Robusta,VIETNAM,ROBUSTA,BITTER,5.0,50,https://example.com/coffee10.jpg
+게이샤,Geisha,PANAMA,ARABICA,FLORAL,3.6,22,https://example.com/coffee11.jpg
+시다모,Sidamo,ETHIOPIA,ARABICA,FRUIT,3.9,32,https://example.com/coffee12.jpg
+후일라,Huila,COLOMBIA,ARABICA,CARAMEL,3.6,21,https://example.com/coffee13.jpg
+카투라,Caturra,BRAZIL,ARABICA,NUTTY,3.4,14,https://example.com/coffee14.jpg
+버본,Bourbon,EL SALVADOR,ARABICA,SWEET,3.5,16,https://example.com/coffee15.jpg
+파카마라,Pacamara,EL SALVADOR,ARABICA,SPICY,3.8,26,https://example.com/coffee16.jpg
+마라고지페,Maragogype,NICARAGUA,ARABICA,FRUIT,3.7,24,https://example.com/coffee17.jpg
+카티모르,Catimor,INDONESIA,ROBUSTA,BITTER,4.8,45,https://example.com/coffee18.jpg
+엑셀사,Excelsa,PHILIPPINES,EXCELSA,FRUIT,4.2,30,https://example.com/coffee19.jpg
+리베리카,Liberica,MALAYSIA,LIBERICA,SMOKY,4.5,40,https://example.com/coffee20.jpg
+디카페인 콜롬비아,Decaf Colombia,COLOMBIA,DECAF,CARAMEL,0.1,15,https://example.com/coffee21.jpg
+디카페인 과테말라,Decaf Guatemala,GUATEMALA,DECAF,CHOCOLATE,0.1,18,https://example.com/coffee22.jpg
+콜드브루 블렌드,Cold Brew Blend,GLOBAL,COLD_BREW,CHOCOLATE,2.5,10,https://example.com/coffee23.jpg
+에스프레소 블렌드,Espresso Blend,GLOBAL,ESPRESSO_BASED,HEAVY_BODY,4.0,25,https://example.com/coffee24.jpg
+하우스 블렌드,House Blend,GLOBAL,BLEND,BALANCED,3.5,20,https://example.com/coffee25.jpg
+예멘 모카,Yemen Mocha,YEMEN,ARABICA,CHOCOLATE,4.1,33,https://example.com/coffee26.jpg
+하와이안 코나 엑스트라 팬시,Kona Extra Fancy,USA,ARABICA,SWEET,3.3,19,https://example.com/coffee27.jpg
+르완다 버본,Rwanda Bourbon,RWANDA,ARABICA,FRUIT,4.0,34,https://example.com/coffee28.jpg
+탄자니아 피베리,Tanzania Peaberry,TANZANIA,ARABICA,ACIDITY,4.1,36,https://example.com/coffee29.jpg
+파푸아뉴기니 시그리,PNG Sigri,PAPUA NEW GUINEA,ARABICA,SWEET,3.8,23,https://example.com/coffee30.jpg

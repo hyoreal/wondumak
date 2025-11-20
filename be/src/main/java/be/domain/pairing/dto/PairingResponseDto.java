@@ -3,7 +3,7 @@ package be.domain.pairing.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import be.domain.beertag.entity.BeerTagType;
+import be.domain.coffeetag.entity.CoffeeTagType;
 import be.domain.comment.dto.PairingCommentDto;
 import be.domain.pairing.entity.PairingCategory;
 import lombok.AccessLevel;
@@ -21,7 +21,7 @@ public class PairingResponseDto {
 		public Detail() {
 		}
 
-		private Long beerId;
+		private Long coffeeId;
 		private String korName;
 		private Long pairingId;
 		private Long userId;
@@ -62,7 +62,7 @@ public class PairingResponseDto {
 		public Total() {
 		}
 
-		private Long beerId;
+		private Long coffeeId;
 		private String korName;
 		private Long pairingId;
 		private Long userId;
@@ -91,7 +91,7 @@ public class PairingResponseDto {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	@AllArgsConstructor
 	public static class UserPageResponse {
-		private Long beerId;
+		private Long coffeeId;
 		private String korName;
 		private Long pairingId;
 		private Long userId;

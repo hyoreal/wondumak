@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 let instance = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,7 +15,7 @@ let instance = axios.create({
 //   const TOKEN = tmpTOKEN.accessToken;
 //   if (TOKEN !== '') {
 //     instance = axios.create({
-//       baseURL: process.env.API_URL,
+//       baseURL: process.env.NEXT_PUBLIC_API_URL,
 //       headers: {
 //         Authorization: TOKEN,
 //         'Content-Type': 'application/json',

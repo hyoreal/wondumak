@@ -37,8 +37,8 @@ public class RatingCustomRepositoryImpl implements RatingCustomRepository {
 	public RatingResponseDto.Detail findDetailRatingResponse(Long ratingId) {
 		var response = queryFactory
 			.select(Projections.fields(RatingResponseDto.Detail.class,
-				rating.beer.id.as("beerId"),
-				rating.beer.beerDetailsBasic.korName.as("korName"),
+				rating.coffee.id.as("coffeeId"),
+				rating.coffee.coffeeDetailsBasic.korName.as("korName"),
 				rating.id.as("ratingId"),
 				rating.user.id.as("userId"),
 				rating.user.nickname.as("nickname"),
@@ -82,52 +82,52 @@ public class RatingCustomRepositoryImpl implements RatingCustomRepository {
 	}
 
 	@Override
-	public Rating findRatingByUserId(Long userId, Long beerId) {
+	public Rating findRatingByUserId(Long userId, Long coffeeId) {
 
 		return queryFactory.selectFrom(rating)
-			.where(rating.beer.id.eq(beerId).and(rating.user.id.eq(userId)))
+			.where(rating.coffee.id.eq(coffeeId).and(rating.user.id.eq(userId)))
 			.fetchFirst();
 	}
 
 	@Override
-	public Page<RatingResponseDto.Total> findRatingTotalResponseOrder(Long beerId, Pageable pageable) {
-		var list = orderByPageable(beerId, pageable);
-		var total = getTotalSize(beerId);
+	public Page<RatingResponseDto.Total> findRatingTotalResponseOrder(Long coffeeId, Pageable pageable) {
+		var list = orderByPageable(coffeeId, pageable);
+		var total = getTotalSize(coffeeId);
 
 		return PageableExecutionUtils.getPage(list, pageable, () -> total);
 	}
 
 	@Override
-	public Page<RatingResponseDto.Total> findRatingTotalResponseOrder(Long beerId, Long userId, Pageable pageable) {
+	public Page<RatingResponseDto.Total> findRatingTotalResponseOrder(Long coffeeId, Long userId, Pageable pageable) {
 		List<RatingResponseDto.Total> list;
 
-		if (isUserWritePairing(beerId, userId)) {
-			list = orderByUserRatingFirst(beerId, userId, pageable);
+		if (isUserWritePairing(coffeeId, userId)) {
+			list = orderByUserRatingFirst(coffeeId, userId, pageable);
 		} else {
-			list = orderByPageable(beerId, pageable);
+			list = orderByPageable(coffeeId, pageable);
 		}
 
-		var total = getTotalSize(beerId);
+		var total = getTotalSize(coffeeId);
 
 		return PageableExecutionUtils.getPage(list, pageable, () -> total);
 	}
 
 	/* 유저가 글을 작성하였는지 확인 */
-	private boolean isUserWritePairing(Long beerId, Long userId) {
+	private boolean isUserWritePairing(Long coffeeId, Long userId) {
 		var userList = queryFactory
-			.selectFrom(rating).where(rating.beer.id.eq(beerId).and(rating.user.id.eq(userId)))
+			.selectFrom(rating).where(rating.coffee.id.eq(coffeeId).and(rating.user.id.eq(userId)))
 			.fetch();
 
 		return userList.size() != 0;
 	}
 
 	/* 로그인을 하지 않았거나 해당 유저가 글을 작성하지 않은 경우 */
-	private List<RatingResponseDto.Total> orderByPageable(Long beerId, Pageable pageable) {
+	private List<RatingResponseDto.Total> orderByPageable(Long coffeeId, Pageable pageable) {
 
 		return queryFactory
 			.select(Projections.fields(RatingResponseDto.Total.class,
-				rating.beer.id.as("beerId"),
-				rating.beer.beerDetailsBasic.korName.as("korName"),
+				rating.coffee.id.as("coffeeId"),
+				rating.coffee.coffeeDetailsBasic.korName.as("korName"),
 				rating.id.as("ratingId"),
 				rating.user.id.as("userId"),
 				rating.user.nickname.as("nickname"),
@@ -139,7 +139,7 @@ public class RatingCustomRepositoryImpl implements RatingCustomRepository {
 				rating.createdAt,
 				rating.modifiedAt
 			)).from(rating)
-			.where(rating.beer.id.eq(beerId))
+			.where(rating.coffee.id.eq(coffeeId))
 			.orderBy(createOrderSpecifier(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -147,15 +147,15 @@ public class RatingCustomRepositoryImpl implements RatingCustomRepository {
 	}
 
 	/* 로그인 유저가 존재하며, 해당 유저가 글을 작성한 경우 */
-	private List<RatingResponseDto.Total> orderByUserRatingFirst(Long beerId, Long userId, Pageable pageable) {
+	private List<RatingResponseDto.Total> orderByUserRatingFirst(Long coffeeId, Long userId, Pageable pageable) {
 		var sorting = new CaseBuilder()
 			.when(rating.user.id.eq(userId)).then(1)
 			.otherwise(2);
 
 		return queryFactory
 			.select(Projections.fields(RatingResponseDto.Total.class,
-				rating.beer.id.as("beerId"),
-				rating.beer.beerDetailsBasic.korName.as("korName"),
+				rating.coffee.id.as("coffeeId"),
+				rating.coffee.coffeeDetailsBasic.korName.as("korName"),
 				rating.id.as("ratingId"),
 				rating.user.id.as("userId"),
 				rating.user.nickname.as("nickname"),
@@ -167,7 +167,7 @@ public class RatingCustomRepositoryImpl implements RatingCustomRepository {
 				rating.createdAt,
 				rating.modifiedAt
 			)).from(rating)
-			.where(rating.beer.id.eq(beerId))
+			.where(rating.coffee.id.eq(coffeeId))
 			.orderBy(sorting.asc())
 			.orderBy(createOrderSpecifier(pageable).toArray(OrderSpecifier[]::new))
 			.offset(pageable.getOffset())
@@ -175,11 +175,11 @@ public class RatingCustomRepositoryImpl implements RatingCustomRepository {
 			.fetch();
 	}
 
-	private long getTotalSize(Long beerId) {
+	private long getTotalSize(Long coffeeId) {
 
 		return queryFactory
 			.selectFrom(rating)
-			.where(rating.beer.id.eq(beerId))
+			.where(rating.coffee.id.eq(coffeeId))
 			.fetch().size();
 	}
 	private List<OrderSpecifier> createOrderSpecifier(Pageable pageable) {

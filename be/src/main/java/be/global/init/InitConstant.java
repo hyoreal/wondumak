@@ -1,10 +1,10 @@
 package be.global.init;
 
-import be.domain.beer.entity.BeerDetailsCounts;
+import be.domain.coffee.entity.CoffeeDetailsCounts;
 
 public class InitConstant {
-	public static final BeerDetailsCounts BEER_DETAILS_COUNTS =
-		BeerDetailsCounts.builder()
+	public static final CoffeeDetailsCounts BEER_DETAILS_COUNTS =
+		CoffeeDetailsCounts.builder()
 			// .totalStarCount(50)
 			.femaleStarCount(30)
 			.maleStarCount(20)

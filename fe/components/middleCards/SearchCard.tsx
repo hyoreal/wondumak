@@ -1,19 +1,19 @@
 import Tag from '../Tag';
 import Image from 'next/image';
 import {
-  BeerCategoryMatcherToKor,
-  BeerCountryMatcherToKor,
-} from '@/utils/BeerMatcher';
+  CoffeeCategoryMatcherToKor,
+  CoffeeCountryMatcherToKor,
+} from '@/utils/CoffeeMatcher';
 import { TagMatcherToKor } from '@/utils/TagMatcher';
 
 export interface SearchCardProps {
-  beerId: number;
+  coffeeId: number;
   korName: string;
   country: string;
   category: string[];
-  abv: number | null;
-  ibu: number | null;
-  beerDetailsTopTags: [string, string, string, string] | null;
+  roasting: number | null;
+  acidity: number | null;
+  coffeeDetailsTopTags: [string, string, string, string] | null;
   totalAverageStars: number;
   totalStarCount: number;
   thumbnail: string;
@@ -50,15 +50,15 @@ export default function SearchCard(props: {
               {props.cardProps?.category.map((el: string, idx: number) => {
                 return (
                   <span className="mx-0.5" key={idx}>
-                    {BeerCategoryMatcherToKor(el)}
+                    {CoffeeCategoryMatcherToKor(el)}
                   </span>
                 );
               })}
             </span>
-            <span>/ {BeerCountryMatcherToKor(props.cardProps?.country)}</span>
-            <span>/ {props.cardProps?.abv}%</span>
-            {props.cardProps?.ibu ? (
-              <span>/ {props.cardProps?.ibu} IBU</span>
+            <span>/ {CoffeeCountryMatcherToKor(props.cardProps?.country)}</span>
+            <span>/ {props.cardProps?.roasting}%</span>
+            {props.cardProps?.acidity ? (
+              <span>/ {props.cardProps?.acidity} Acidity</span>
             ) : null}
           </div>
           <div className="my-4">
@@ -70,8 +70,8 @@ export default function SearchCard(props: {
             </span>
           </div>
           <div className="flex flex-wrap mx-3">
-            {props.cardProps?.beerDetailsTopTags
-              ? props.cardProps?.beerDetailsTopTags.map(
+            {props.cardProps?.coffeeDetailsTopTags
+              ? props.cardProps?.coffeeDetailsTopTags.map(
                   (el: string, idx: number) => {
                     return <Tag key={idx}>{TagMatcherToKor(el)}</Tag>;
                   }

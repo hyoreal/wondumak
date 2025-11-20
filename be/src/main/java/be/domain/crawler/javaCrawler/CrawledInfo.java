@@ -27,7 +27,7 @@ public class CrawledInfo {
 	private Long id;
 	private String engName;
 	private String country;
-	private String beerCategory;
+	private String coffeeCategory;
 	private String abv;
 	private String ibu;
 }

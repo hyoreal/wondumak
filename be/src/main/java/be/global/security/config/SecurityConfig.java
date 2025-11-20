@@ -81,9 +81,9 @@ public class SecurityConfig {
 			.authorizeHttpRequests(authorize -> authorize
 				.anyRequest().permitAll())
 			.rememberMe()
-			.key("getabeerCalander")
-			.rememberMeParameter("getabeer-remember-me")
-			.rememberMeCookieName("getabeer-remember-me")
+			.key("getacoffeeCalander")
+			.rememberMeParameter("getacoffee-remember-me")
+			.rememberMeCookieName("getacoffee-remember-me")
 			.userDetailsService(userDetailService)
 			.tokenRepository(persistentTokenRepository());
 
@@ -123,9 +123,9 @@ public class SecurityConfig {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("https://www.getabeer.co.kr");
-		configuration.addAllowedOrigin("https://getabeer.co.kr");
-		configuration.addAllowedOrigin("https://server.getabeer.co.kr");
+		configuration.addAllowedOrigin("https://www.getacoffee.co.kr");
+		configuration.addAllowedOrigin("https://getacoffee.co.kr");
+		configuration.addAllowedOrigin("https://server.getacoffee.co.kr");
 		configuration.addAllowedOrigin("http://localhost:3000");
 		configuration.addAllowedOrigin("http://localhost:8080");
 		configuration.addAllowedHeader("*");
@@ -150,10 +150,10 @@ public class SecurityConfig {
 	@Bean
 	public RememberMeServices rememberMeServices(PersistentTokenRepository persistentTokenRepository) {
 		PersistentTokenBasedRememberMeServices rememberMeServices = new
-			PersistentTokenBasedRememberMeServices("getabeerCalander",
+			PersistentTokenBasedRememberMeServices("getacoffeeCalander",
 			userDetailService, persistentTokenRepository);
-		rememberMeServices.setParameter("getabeer-remember-me");
-		rememberMeServices.setCookieName("getabeer-remember-me");
+		rememberMeServices.setParameter("getacoffee-remember-me");
+		rememberMeServices.setCookieName("getacoffee-remember-me");
 		return rememberMeServices;
 	}
 }

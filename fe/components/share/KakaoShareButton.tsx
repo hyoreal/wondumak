@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { currentBeer } from '@/atoms/currentBeer';
+import { currentCoffee } from '@/atoms/currentCoffee';
 import { useRecoilState } from 'recoil';
 
 // 참고로, JS SDK는 PC 또는 모바일에 따라 동작이 변경되는 부분들이 있어서
 // user agent가 임의로 변경된 환경 (크롬 브라우저 > 개발자모드 > 모바일 설정)을 지원하지 않음
 const KakaoShareButton = () => {
-  const [beerInfo] = useRecoilState(currentBeer);
+  const [coffeeInfo] = useRecoilState(currentCoffee);
   useEffect(() => {
-    createKakaoButton(beerInfo);
-  }, [beerInfo]);
+    createKakaoButton(coffeeInfo);
+  }, [coffeeInfo]);
 
-  const createKakaoButton = (beerInfo: any) => {
+  const createKakaoButton = (coffeeInfo: any) => {
     if (window.Kakao) {
       const kakao = window.Kakao;
       // 중복 initialization 방지
@@ -23,9 +23,9 @@ const KakaoShareButton = () => {
         container: '#kakao-link-btn',
         objectType: 'feed',
         content: {
-          title: `${beerInfo?.beerDetailsBasic?.korName}`,
-          description: `#맥주가 #땡길땐 #GetABeer`,
-          imageUrl: beerInfo?.beerDetailsBasic?.thumbnail,
+          title: `${coffeeInfo?.coffeeDetailsBasic?.korName}`,
+          description: `#맥주가 #땡길땐 #GetACoffee`,
+          imageUrl: coffeeInfo?.coffeeDetailsBasic?.thumbnail,
           link: {
             mobileWebUrl: window.location.href,
             webUrl: window.location.href,

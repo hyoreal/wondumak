@@ -3,7 +3,7 @@ package be.domain.rating.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import be.domain.beertag.entity.BeerTagType;
+import be.domain.coffeetag.entity.CoffeeTagType;
 import be.domain.comment.dto.RatingCommentDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,14 +20,14 @@ public class RatingResponseDto {
 		public Detail() {
 		}
 
-		private Long beerId;
+		private Long coffeeId;
 		private String korName;
 		private Long ratingId;
 		private Long userId;
 		private String nickname;
 		private String userImage;
 		private String content;
-		private List<BeerTagType> ratingTag;
+		private List<CoffeeTagType> ratingTag;
 		private Double star;
 		private Integer likeCount;
 		private Integer commentCount;
@@ -36,7 +36,7 @@ public class RatingResponseDto {
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
 
-		public void addTag(List<BeerTagType> ratingTag) {
+		public void addTag(List<CoffeeTagType> ratingTag) {
 			this.ratingTag = ratingTag;
 		}
 
@@ -56,14 +56,14 @@ public class RatingResponseDto {
 		public Total() {
 		}
 
-		private Long beerId;
+		private Long coffeeId;
 		private String korName;
 		private Long ratingId;
 		private Long userId;
 		private String nickname;
 		private String userImage;
 		private String content;
-		private List<BeerTagType> ratingTag;
+		private List<CoffeeTagType> ratingTag;
 		private Double star;
 		private Integer likeCount;
 		private Integer commentCount;
@@ -71,7 +71,7 @@ public class RatingResponseDto {
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
 
-		public void addTag(List<BeerTagType> ratingTag) {
+		public void addTag(List<CoffeeTagType> ratingTag) {
 			this.ratingTag = ratingTag;
 		}
 
@@ -84,13 +84,13 @@ public class RatingResponseDto {
 	@Builder
 	@AllArgsConstructor
 	public static class MyPageResponse {
-		private Long beerId;
+		private Long coffeeId;
 		private Long ratingId;
 		private Long userId;
 		private String nickname;
 		private String userImage;
 		private String content;
-		private List<BeerTagType> ratingTag;
+		private List<CoffeeTagType> ratingTag;
 		private Double star;
 		private Integer likeCount;
 		private Integer commentCount;
@@ -104,13 +104,13 @@ public class RatingResponseDto {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	@AllArgsConstructor
 	public static class UserPageResponse {
-		private Long beerId;
+		private Long coffeeId;
 		private Long ratingId;
 		private Long userId;
 		private String nickname;
 		private String userImage;
 		private String content;
-		private List<BeerTagType> ratingTag;
+		private List<CoffeeTagType> ratingTag;
 		private Double star;
 		private Integer likeCount;
 		private Integer commentCount;

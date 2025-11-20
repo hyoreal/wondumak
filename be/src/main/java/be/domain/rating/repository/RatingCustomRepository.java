@@ -18,11 +18,11 @@ public interface RatingCustomRepository {
 
 	List<RatingCommentDto.Response> findRatingCommentResponse(Long ratingId);
 
-	Rating findRatingByUserId(Long userId, Long beerId);
+	Rating findRatingByUserId(Long userId, Long coffeeId);
 
-	Page<RatingResponseDto.Total> findRatingTotalResponseOrder(Long beerId, Pageable pageable);
+	Page<RatingResponseDto.Total> findRatingTotalResponseOrder(Long coffeeId, Pageable pageable);
 
-	Page<RatingResponseDto.Total> findRatingTotalResponseOrder(Long beerId, Long userId, Pageable pageable);
+	Page<RatingResponseDto.Total> findRatingTotalResponseOrder(Long coffeeId, Long userId, Pageable pageable);
 
 	Page<Rating> findRatingByUser(User user, Pageable pageable);
 }

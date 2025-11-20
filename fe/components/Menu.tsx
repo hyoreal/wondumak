@@ -3,7 +3,7 @@ import { HiMenu } from 'react-icons/hi';
 
 export default function Menu() {
   const [showModal, setShowModal] = useState(false);
-  const beerCategoryList: string[] = [
+  const coffeeCategoryList: string[] = [
     'Ale',
     'Dunkel',
     'IPA',
@@ -31,9 +31,9 @@ export default function Menu() {
 
       {showModal ? (
         <div className="fixed bottom-[53px] bg-y-gold right-0 w-1/2 md:w-1/3 h-full  rounded-lg text-start p-8 text-black">
-          <div className="pt-12 text-xl font-bold">Beer</div>
+          <div className="pt-12 text-xl font-bold">Coffee</div>
           <ul className="list-disc pl-4 py-1 pb-3">
-            {beerCategoryList.map((el: string, idx: number) => (
+            {coffeeCategoryList.map((el: string, idx: number) => (
               <li key={idx.toString()} className="py-1">
                 {el}
               </li>

@@ -92,7 +92,7 @@ export default function Rating() {
     <PageContainer>
       <div className="px-2">
         <BackBtn />
-        <Link href={`/beer/${cardProps?.beerId}`}>
+        <Link href={`/coffee/${cardProps?.coffeeId}`}>
           <div className="flex justify-center mb-4 mt-8">
             <h1 className="text-xl lg:text-2xl font-semibold">
               {cardProps?.korName}

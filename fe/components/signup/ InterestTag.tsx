@@ -1,9 +1,9 @@
 import { UseFormRegister, RegisterOptions } from 'react-hook-form';
 interface IFormValues {
-  userBeerTags: Array<string>;
+  userCoffeeTags: Array<string>;
   gender: string;
   age: string;
-  userBeerCategories: Array<string>;
+  userCoffeeCategories: Array<string>;
   nickname: string;
   image: string[];
 }
@@ -108,7 +108,7 @@ export default function InterestTag({ rules, register }: InputProps) {
               id={el.type}
               value={el.type}
               className="peer hidden"
-              {...(register && register('userBeerTags', rules))}
+              {...(register && register('userCoffeeTags', rules))}
             />
             <label
               htmlFor={el.type}

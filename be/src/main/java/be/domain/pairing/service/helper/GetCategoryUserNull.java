@@ -13,11 +13,11 @@ import be.domain.user.entity.User;
 /* 로그인 안한 유저 카테고리별 조회 */
 public class GetCategoryUserNull implements PairingState{
 	@Override
-	public Page<PairingResponseDto.Total> getPairingResponse(User user, String category, String type, Long beerId,
+	public Page<PairingResponseDto.Total> getPairingResponse(User user, String category, String type, Long coffeeId,
 		Pageable pageable, PairingRepository pairingRepository, PairingLikeRepository pairingLikeRepository) {
 		PairingCategory pairingCategory = PairingCategory.to(category.toUpperCase());
 		Page<PairingResponseDto.Total> responses =
-			pairingRepository.findPairingTotalResponseGetCategory(beerId, type, pairingCategory, pageable);
+			pairingRepository.findPairingTotalResponseGetCategory(coffeeId, type, pairingCategory, pageable);
 		responses.forEach(
 			pairing -> {
 				pairing.addUserLike(false);

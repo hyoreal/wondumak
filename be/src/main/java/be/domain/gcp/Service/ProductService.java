@@ -85,7 +85,7 @@ public class ProductService {
 				String formattedParentForImage = ProductName.format(PROJECT_ID, COMPUTE_REGION, PRODUCT_ENGNAME[i]);
 
 				ReferenceImage referenceImage = ReferenceImage.newBuilder()
-					.setUri("gs://getabeer_bucket/GetABeer_Products/" + (i + 1) + ".jpeg")
+					.setUri("gs://getacoffee_bucket/Wondumak_Products/" + (i + 1) + ".jpeg")
 					.build();
 
 				String referenceImageId = (i + 1) + UUID.randomUUID().toString();

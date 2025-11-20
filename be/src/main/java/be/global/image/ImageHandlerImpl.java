@@ -23,7 +23,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
-import be.domain.beer.entity.Beer;
+import be.domain.coffee.entity.Coffee;
 import be.domain.pairing.entity.Pairing;
 import be.domain.pairing.entity.PairingImage;
 import be.domain.pairing.repository.image.PairingImageRepository;
@@ -114,7 +114,7 @@ public class ImageHandlerImpl implements ImageHandler {
 
 	@Override
 	public List<PairingImage> createPairingImage(Pairing pairing, List<MultipartFile> files,
-		Long userId, Beer beer) throws IOException {
+		Long userId, Coffee coffee) throws IOException {
 
 		List<PairingImage> result = new ArrayList<>();
 		if (files.isEmpty()) {

@@ -1,0 +1,191 @@
+import {
+  CoffeeCountryMatcherToKor,
+  CoffeeCategoryMatcherToKor,
+} from '@/utils/CoffeeMatcher';
+import Image from 'next/image';
+import Link from 'next/link';
+import { HiPencil, HiChartPie } from 'react-icons/hi';
+import SmallTag from '../smallCards/SmallTag';
+import WishHeart from '@/components/WishHeart';
+import StarScore from './StarScore';
+import ShareBtn from '../share/ShareBtn';
+import { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { accessToken } from '@/atoms/login';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
+
+export default function CoffeeDetailCard({
+  cardProps,
+  hasRating,
+  myRatingId,
+}: any) {
+  const router = useRouter();
+  const curRouter = router.query.id;
+  const [isWish, setIsWish] = useState<boolean>(cardProps?.isWishlist);
+  useEffect(() => {
+    setIsWish(cardProps.isWishlist);
+  }, [cardProps.isWishlist, curRouter]);
+
+  const TOKEN = useRecoilValue(accessToken);
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if (TOKEN === '') {
+    } else {
+      setIsLogin(true);
+    }
+  }, [TOKEN]);
+
+  const goToLogin = () => {
+    Swal.fire({
+      text: '로그인이 필요한 서비스 입니다.',
+      showCancelButton: true,
+      confirmButtonColor: '#f1b31c',
+      cancelButtonColor: '#A7A7A7',
+      confirmButtonText: '로그인',
+      cancelButtonText: '취소',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push({
+          pathname: '/login',
+        });
+      }
+    });
+  };
+
+  return (
+    <div className="flex rounded-xl bg-white text-y-black border border-y-lightGray py-2 my-2 relative">
+      <div className="flex m-auto">
+        <div className="w-[122px] select-none">
+          {cardProps?.coffeeDetailsBasic.thumbnail.includes('.') ? (
+            <Image
+              className="pt-3 w-full h-auto select-none"
+              alt={cardProps?.coffeeDetailsBasic.korName}
+              src={cardProps?.coffeeDetailsBasic.thumbnail}
+              width={100}
+              height={100}
+              priority
+            />
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="flex flex-col justify-center">
+          <div className="flex items-start">
+            <h1 className="font-bold text-2xl break-keep">
+              {cardProps?.coffeeDetailsBasic.korName}
+            </h1>
+            <WishHeart
+              coffeeId={cardProps?.coffeeId}
+              isWish={isWish}
+              setIsWish={setIsWish}
+              isLogin={isLogin}
+            />
+          </div>
+          <div className="text-xs flex flex-wrap">
+            <span>
+              {cardProps?.coffeeCategoryTypes.map((el: string, idx: number) => {
+                return (
+                  <span className="mr-0.5" key={idx}>
+                    {CoffeeCategoryMatcherToKor(el)}
+                  </span>
+                );
+              })}
+            </span>
+            <span className="mx-[1px]">
+              / {CoffeeCountryMatcherToKor(cardProps?.coffeeDetailsBasic.country)}
+            </span>
+            <span className="mx-[1px]">{cardProps?.coffeeDetailsBasic.roasting}%</span>
+            {cardProps?.coffeeDetailsBasic.acidity !== null ? (
+              <span>/ {cardProps?.coffeeDetailsBasic.acidity} Acidity</span>
+            ) : (
+              <></>
+            )}
+          </div>
+
+          <div className="flex items-end">
+            <StarScore score={cardProps?.coffeeDetailsStars.totalAverageStars} />
+            <span className="text-xs text-y-gray">
+              ({cardProps?.coffeeDetailsStars.totalAverageStars})
+            </span>
+          </div>
+          <div className="mb-0.5 text-xs flex">
+            <div className="mr-4">
+              <Image
+                src="/images/star.png"
+                alt="star"
+                width={13}
+                height={13}
+                className="mr-1 mb-[3px] text-y-gold drop-shadow-md inline"
+              />
+              {cardProps?.coffeeDetailsStars.femaleAverageStars} 여성
+            </div>
+            <div>
+              <Image
+                src="/images/star.png"
+                alt="star"
+                width={13}
+                height={13}
+                className="mr-1 mb-[3px] text-y-gold drop-shadow-md inline"
+              />
+              {cardProps?.coffeeDetailsStars.maleAverageStars} 남성
+            </div>
+          </div>
+          {cardProps?.coffeeDetailsTopTags === null ? (
+            <></>
+          ) : (
+            <SmallTag tags={cardProps?.coffeeDetailsTopTags} />
+          )}
+          <div className="text-xs">
+            {isLogin ? (
+              hasRating ? (
+                <span
+                  onClick={() => {
+                    Swal.fire({
+                      text: '이미 나의 평가가 등록되어있습니다',
+                      showCancelButton: true,
+                      confirmButtonColor: '#f1b31c',
+                      cancelButtonColor: '#A7A7A7',
+                      confirmButtonText: '수정하기',
+                      cancelButtonText: '취소',
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        router.push({
+                          pathname: `/editrating/${myRatingId}`,
+                        });
+                      }
+                    });
+                  }}
+                >
+                  <HiPencil className="inline" /> 평가하기
+                </span>
+              ) : (
+                <Link href={'/postrating'} className="hover:text-y-gold mr-1">
+                  <HiPencil className="inline" /> 평가하기
+                </Link>
+              )
+            ) : (
+              <span onClick={goToLogin} className="hover:text-y-gold mr-1">
+                <HiPencil className="inline" /> 평가하기
+              </span>
+            )}
+            {isLogin ? (
+              <Link href={'/postpairing'} className="hover:text-y-gold">
+                <span className="mr-1">
+                  <HiChartPie className="inline" /> 페어링
+                </span>
+              </Link>
+            ) : (
+              <span onClick={goToLogin} className="hover:text-y-gold mr-1">
+                <HiChartPie className="inline" /> 페어링
+              </span>
+            )}
+
+            <ShareBtn />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

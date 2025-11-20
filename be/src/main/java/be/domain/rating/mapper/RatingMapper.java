@@ -23,13 +23,13 @@ public interface RatingMapper {
 		return new PageImpl<>(ratings.stream()
 			.map(rating ->
 				new RatingResponseDto.MyPageResponse(
-					rating.getBeer().getId(),
+					rating.getCoffee().getId(),
 					rating.getId(),
 					rating.getUser().getId(),
 					rating.getUser().getNickname(),
 					rating.getUser().getImageUrl(),
 					rating.getContent(),
-					rating.getRatingTag().createBeerTagTypeList(),
+					rating.getRatingTag().createCoffeeTagTypeList(),
 					rating.getStar(),
 					rating.getLikeCount(),
 					rating.getCommentCount(),
@@ -44,13 +44,13 @@ public interface RatingMapper {
 		return new PageImpl<>(ratings.stream()
 			.map(rating ->
 				new RatingResponseDto.UserPageResponse(
-					rating.getBeer().getId(),
+					rating.getCoffee().getId(),
 					rating.getId(),
 					rating.getUser().getId(),
 					rating.getUser().getNickname(),
 					rating.getUser().getImageUrl(),
 					rating.getContent(),
-					rating.getRatingTag().createBeerTagTypeList(),
+					rating.getRatingTag().createCoffeeTagTypeList(),
 					rating.getStar(),
 					rating.getLikeCount(),
 					rating.getCommentCount(),

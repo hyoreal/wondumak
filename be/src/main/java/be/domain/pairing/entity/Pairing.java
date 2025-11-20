@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import be.domain.beer.entity.Beer;
+import be.domain.coffee.entity.Coffee;
 import be.domain.comment.entity.PairingComment;
 import be.domain.like.entity.PairingLike;
 import be.domain.user.entity.User;
@@ -67,12 +67,12 @@ public class Pairing extends BaseTimeEntity {
 
 	/* 💙 페어링 - 맥주 다대일 연관관계 */
 	@ManyToOne
-	@JoinColumn(name = "beer_id")
-	private Beer beer;
+	@JoinColumn(name = "coffee_id")
+	private Coffee coffee;
 
 	/* 💙 페어링 - 맥주 다대일 연관관계 편의 메서드 */
-	public void belongToBeer(Beer beer) {
-		this.beer = beer;
+	public void belongToCoffee(Coffee coffee) {
+		this.coffee = coffee;
 	}
 
 	/* 💚 페어링 - 페어링 댓글 일대다 연관관계 */
@@ -110,8 +110,8 @@ public class Pairing extends BaseTimeEntity {
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
-	public void saveDefault(Beer beer, User user, String thumbnail, List<PairingImage> pairingImageList) {
-		this.beer = beer;
+	public void saveDefault(Coffee coffee, User user, String thumbnail, List<PairingImage> pairingImageList) {
+		this.coffee = coffee;
 		this.user = user;
 		this.thumbnail = thumbnail;
 		this.pairingImageList = pairingImageList;

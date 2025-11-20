@@ -9,7 +9,7 @@ import axios from '@/pages/api/axios';
 import { useRouter } from 'next/router';
 import { accessToken } from '@/atoms/login';
 import Swal from 'sweetalert2';
-import { PairingCardProps } from '../beerPage/BeerDeclare';
+import { PairingCardProps } from '../coffeePage/CoffeeDeclare';
 import { useRecoilState } from 'recoil';
 
 export default function PairingCard(props: { pairingCardProps: any }) {

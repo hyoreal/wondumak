@@ -26,7 +26,7 @@
 // 		corsRegistry
 // 			.addMapping("/**")
 // 			// .allowedOrigins("http://localhost:8080", "http://localhost:3000",
-// 			// 	"https://www.getabeer.co.kr", "https://getabeer.co.kr", "https://server.getabeer.co.kr")
+// 			// 	"https://www.getacoffee.co.kr", "https://getacoffee.co.kr", "https://server.getacoffee.co.kr")
 // 			.allowedOriginPatterns("*")
 // 			.allowedMethods("*")
 // 			.allowedHeaders("*")

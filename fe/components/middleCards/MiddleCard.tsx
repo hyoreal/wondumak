@@ -1,21 +1,21 @@
 import Tag from '../Tag';
 import Image from 'next/image';
 import {
-  BeerCategoryMatcherToKor,
-  BeerCountryMatcherToKor,
-} from '@/utils/BeerMatcher';
+  CoffeeCategoryMatcherToKor,
+  CoffeeCountryMatcherToKor,
+} from '@/utils/CoffeeMatcher';
 
 export interface MiddleCardInfo {
-  beerId: number;
+  coffeeId: number;
   thumbnail: string;
   korName: string;
   category: string[];
   country: string;
-  abv: number;
-  ibu: number | null;
+  roasting: number;
+  acidity: number | null;
   totalStarCount: number;
   totalAverageStars: number;
-  beerTags: string[];
+  coffeeTags: string[];
 }
 
 export default function MiddleCard({
@@ -41,14 +41,14 @@ export default function MiddleCard({
             {cardProps?.category?.map((el: string, idx: number) => {
               return (
                 <span className="mx-0.5" key={idx}>
-                  {BeerCategoryMatcherToKor(el)}
+                  {CoffeeCategoryMatcherToKor(el)}
                 </span>
               );
             })}
           </span>
-          <span>/ {BeerCountryMatcherToKor(cardProps?.country)}</span>
-          <span>/ {cardProps?.abv}%</span>
-          {cardProps?.ibu ? <span>/ {cardProps?.ibu} IBU</span> : null}
+          <span>/ {CoffeeCountryMatcherToKor(cardProps?.country)}</span>
+          <span>/ {cardProps?.roasting}%</span>
+          {cardProps?.acidity ? <span>/ {cardProps?.acidity} Acidity</span> : null}
         </div>
         <div className="my-2">
           <span className="font-semibold sm:text-xl lg:text-2xl">
@@ -59,7 +59,7 @@ export default function MiddleCard({
           </span>
         </div>
         <div className="flex flex-wrap">
-          {cardProps?.beerTags.map((el: string, idx: number) => {
+          {cardProps?.coffeeTags.map((el: string, idx: number) => {
             return <Tag key={idx}>{el}</Tag>;
           })}
         </div>

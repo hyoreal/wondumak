@@ -12,13 +12,13 @@ public interface PairingCustomRepository {
 
 	PairingResponseDto.Detail findPairingDetailResponseDto(Long pairingId);
 
-	Page<PairingResponseDto.Total> findPairingTotalResponseGetALL(Long beerId, String type, Pageable pageable);
-	Page<PairingResponseDto.Total> findPairingTotalResponseGetCategory(Long beerId, String type,
+	Page<PairingResponseDto.Total> findPairingTotalResponseGetALL(Long coffeeId, String type, Pageable pageable);
+	Page<PairingResponseDto.Total> findPairingTotalResponseGetCategory(Long coffeeId, String type,
 		PairingCategory category, Pageable pageable);
 
 	// ------------------------------------- 로그인 한 유저 -------------------------------------------------------------
-	Page<PairingResponseDto.Total> findPairingTotalResponseGetALL(Long beerId, String type, Long userId, Pageable pageable);
-	Page<PairingResponseDto.Total> findPairingTotalResponseGetCategory(Long beerId, String type, Long userId,
+	Page<PairingResponseDto.Total> findPairingTotalResponseGetALL(Long coffeeId, String type, Long userId, Pageable pageable);
+	Page<PairingResponseDto.Total> findPairingTotalResponseGetCategory(Long coffeeId, String type, Long userId,
 		PairingCategory category, Pageable pageable);
 
 	// ---------------------------------------------------------------------------------------------------------------

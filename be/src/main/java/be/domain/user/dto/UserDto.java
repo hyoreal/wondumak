@@ -50,11 +50,11 @@ public class UserDto {
 
 		@NotNull
 		@Size(max = 2, message = "선호 맥주는 최대 2개까지 선택할 수 있습니다.")
-		private List<String> userBeerCategories;
+		private List<String> userCoffeeCategories;
 
 		@NotNull
 		@Size(max = 4, message = "관심 태그는 최대 4개까지 선택할 수 있습니다.")
-		private List<String> userBeerTags;
+		private List<String> userCoffeeTags;
 	}
 
 	@Getter
@@ -71,10 +71,10 @@ public class UserDto {
 		private Age age;
 
 		@Size(max = 2, message = "선호 맥주는 최대 2개까지 선택할 수 있습니다.")
-		private List<String> userBeerCategories;
+		private List<String> userCoffeeCategories;
 
 		@Size(max = 4, message = "관심 태그는 최대 4개까지 선택할 수 있습니다.")
-		private List<String> userBeerTags;
+		private List<String> userCoffeeTags;
 	}
 
 	@Getter
@@ -114,9 +114,9 @@ public class UserDto {
 
 		private Long followingCount;
 
-		private List<String> userBeerCategories;
+		private List<String> userCoffeeCategories;
 
-		private List<String> userBeerTags;
+		private List<String> userCoffeeTags;
 	}
 
 	@Getter

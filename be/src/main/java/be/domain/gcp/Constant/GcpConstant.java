@@ -1,10 +1,10 @@
 package be.domain.gcp.Constant;
 
 public class GcpConstant {
-	public static final String PROJECT_ID = "getabeer-376509";
+	public static final String PROJECT_ID = "getacoffee-376509";
 	public static final String COMPUTE_REGION = "asia-east1";
-	public static final String PRODUCT_SET_ID = "beers";
-	public static final String PRODUCT_SET_DISPLAY_NAME = "getabeer-product";
+	public static final String PRODUCT_SET_ID = "coffees";
+	public static final String PRODUCT_SET_DISPLAY_NAME = "getacoffee-product";
 	public static final String PRODUCT_CATEGORY = "general-v1";
 
 	public static final String[] PRODUCT_KORNAME =

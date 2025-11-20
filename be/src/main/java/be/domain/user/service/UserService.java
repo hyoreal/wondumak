@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import be.domain.chat.ChatService;
 import be.domain.notice.repository.EmitterRepository;
 
 import be.domain.user.dto.UserDto;
@@ -45,7 +44,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserService {
 	private final EntityManager em;
-	private final ChatService chatService;
 	// private final HttpSession httpSession;
 	private final ImageHandler imageHandler;
 	private final UserRepository userRepository;
@@ -81,8 +79,6 @@ public class UserService {
 
 		userRepository.save(saved);
 
-		chatService.createChatRoom(saved);
-
 		return saved;
 	}
 
@@ -92,8 +88,8 @@ public class UserService {
 		User user = userRepository.findById(post.getId())
 			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
-		userPreferenceService.setUserBeerTags(post, user);
-		userPreferenceService.setUserBeerCategories(post, user);
+		userPreferenceService.setUserCoffeeTags(post, user);
+		userPreferenceService.setUserCoffeeCategories(post, user);
 		user.putUserInfo(post.getAge(), post.getGender());
 		em.flush();
 	}
@@ -107,12 +103,12 @@ public class UserService {
 			verifyNickname(edit.getNickname());
 		}
 
-		if (edit.getUserBeerCategories() != null) {
-			userPreferenceService.setUserBeerCategories(edit, user);
+		if (edit.getUserCoffeeCategories() != null) {
+			userPreferenceService.setUserCoffeeCategories(edit, user);
 		}
 
-		if (edit.getUserBeerTags() != null) {
-			userPreferenceService.setUserBeerTags(edit, user);
+		if (edit.getUserCoffeeTags() != null) {
+			userPreferenceService.setUserCoffeeTags(edit, user);
 		}
 
 		user.edit(edit.getImageUrl(),

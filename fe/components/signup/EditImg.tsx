@@ -1,10 +1,10 @@
 import { UseFormRegister, RegisterOptions } from 'react-hook-form';
 import { IoCamera } from 'react-icons/io5';
 interface IFormValues {
-  userBeerTags: Array<string>;
+  userCoffeeTags: Array<string>;
   gender: string;
   age: string;
-  userBeerCategories: Array<string>;
+  userCoffeeCategories: Array<string>;
   nickname: string;
   image: string[];
 }

@@ -14,7 +14,7 @@ public class PairingRequestDto {
 	public static class Post {
 
 		@NotNull
-		private Long beerId;
+		private Long coffeeId;
 
 		@NotNull
 		private String content;
@@ -28,7 +28,7 @@ public class PairingRequestDto {
 	public static class Patch {
 
 		@NotNull
-		private Long beerId;
+		private Long coffeeId;
 		private String content;
 
 		@NotNull

@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import be.domain.beertag.entity.BeerTagType;
+import be.domain.coffeetag.entity.CoffeeTagType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -30,16 +30,16 @@ public class RatingTag {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	private BeerTagType color;
+	private CoffeeTagType color;
 
 	@Enumerated(EnumType.STRING)
-	private BeerTagType taste;
+	private CoffeeTagType taste;
 
 	@Enumerated(EnumType.STRING)
-	private BeerTagType flavor;
+	private CoffeeTagType flavor;
 
 	@Enumerated(EnumType.STRING)
-	private BeerTagType carbonation;
+	private CoffeeTagType carbonation;
 
 	@OneToOne(mappedBy = "ratingTag", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Rating rating;
@@ -53,7 +53,7 @@ public class RatingTag {
 	}
 
 	@Builder
-	public RatingTag(Long id, BeerTagType color, BeerTagType taste, BeerTagType flavor, BeerTagType carbonation,
+	public RatingTag(Long id, CoffeeTagType color, CoffeeTagType taste, CoffeeTagType flavor, CoffeeTagType carbonation,
 		Rating rating) {
 		this.id = id;
 		this.color = color;
@@ -74,7 +74,7 @@ public class RatingTag {
 		this.rating = rating;
 	}
 
-	public List<BeerTagType> createBeerTagTypeList() {
+	public List<CoffeeTagType> createCoffeeTagTypeList() {
 		return List.of(color, flavor, taste, carbonation);
 	}
 }

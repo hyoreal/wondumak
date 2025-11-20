@@ -26,9 +26,9 @@ import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.protobuf.ByteString;
 
-import be.domain.beer.dto.BeerDto;
-import be.domain.beer.entity.Beer;
-import be.domain.beer.mapper.BeerMapper;
+import be.domain.coffee.dto.CoffeeDto;
+import be.domain.coffee.entity.Coffee;
+import be.domain.coffee.mapper.CoffeeMapper;
 import be.domain.search.service.VisionService;
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/search")
 @RequiredArgsConstructor
 public class VisionController {
-	private final BeerMapper beerMapper;
+	private final CoffeeMapper coffeeMapper;
 	private final VisionService visionService;
 	private final ResourceLoader resourceLoader;
 	private final CloudVisionTemplate cloudVisionTemplate;
@@ -77,8 +77,8 @@ public class VisionController {
 	@PostMapping("/image")
 	public ResponseEntity imageSearch(@RequestParam(value = "image") MultipartFile multipartFile) throws IOException {
 		List<String> engNameList = visionService.getSimilarProductsFile(multipartFile);
-		List<Beer> beerList = visionService.findBeersListByImage(engNameList);
-		List<BeerDto.SearchResponse> responseList = beerMapper.beersListToSearchResponse(beerList);
+		List<Coffee> coffeeList = visionService.findCoffeesListByImage(engNameList);
+		List<CoffeeDto.SearchResponse> responseList = coffeeMapper.coffeesListToSearchResponse(coffeeList);
 
 		return ResponseEntity.ok(responseList);
 	}

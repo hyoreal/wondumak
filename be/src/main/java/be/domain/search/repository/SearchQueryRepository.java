@@ -1,8 +1,8 @@
 package be.domain.search.repository;
 
-import static be.domain.beer.entity.QBeer.*;
-import static be.domain.beer.entity.QBeerBeerCategory.*;
-import static be.domain.beercategory.entity.QBeerCategory.*;
+import static be.domain.coffee.entity.QCoffee.*;
+import static be.domain.coffee.entity.QCoffeeCoffeeCategory.*;
+import static be.domain.coffeecategory.entity.QCoffeeCategory.*;
 import static be.domain.user.entity.QUser.*;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import be.domain.beer.entity.Beer;
+import be.domain.coffee.entity.Coffee;
 import be.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,28 +29,28 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
-	public Page<Beer> findBeersPageByQueryParam(String queryParam, Pageable pageable) {
+	public Page<Coffee> findCoffeesPageByQueryParam(String queryParam, Pageable pageable) {
 
-		List<Beer> resultList = new ArrayList<>();
+		List<Coffee> resultList = new ArrayList<>();
 
 		String[] queryParamArr = queryParam.split(" ");
-		StringPath korName = beer.beerDetailsBasic.korName;
-		StringPath engName = beer.beerDetailsBasic.engName;
+		StringPath korName = coffee.coffeeDetailsBasic.korName;
+		StringPath engName = coffee.coffeeDetailsBasic.engName;
 
 		log.info("####: " + queryParam);
 
-		List<Beer> fullTextResultList = jpaQueryFactory
-			.selectFrom(beer)
+		List<Coffee> fullTextResultList = jpaQueryFactory
+			.selectFrom(coffee)
 			.where(korName.likeIgnoreCase(queryParam)
 				.or(engName.likeIgnoreCase(queryParam)))
-			.orderBy(beer.beerDetailsBasic.korName.asc(), beer.beerDetailsBasic.engName.asc())
+			.orderBy(coffee.coffeeDetailsBasic.korName.asc(), coffee.coffeeDetailsBasic.engName.asc())
 			.fetch();
 
-		List<Beer> fullTextContainsResultList = jpaQueryFactory
-			.selectFrom(beer)
+		List<Coffee> fullTextContainsResultList = jpaQueryFactory
+			.selectFrom(coffee)
 			.where(korName.containsIgnoreCase(queryParam)
 				.or(engName.containsIgnoreCase(queryParam)))
-			.orderBy(beer.beerDetailsBasic.korName.asc(), beer.beerDetailsBasic.engName.asc())
+			.orderBy(coffee.coffeeDetailsBasic.korName.asc(), coffee.coffeeDetailsBasic.engName.asc())
 			.fetch();
 
 		log.info("#####: " + fullTextResultList);
@@ -60,20 +60,20 @@ public class SearchQueryRepository {
 		for (String query : queryParamArr) {
 
 			resultList.addAll(jpaQueryFactory
-				.selectFrom(beer)
+				.selectFrom(coffee)
 				.where(korName.containsIgnoreCase(query).or(engName.containsIgnoreCase(query)))
-				.orderBy(beer.beerDetailsBasic.korName.asc(), beer.beerDetailsBasic.engName.asc())
+				.orderBy(coffee.coffeeDetailsBasic.korName.asc(), coffee.coffeeDetailsBasic.engName.asc())
 				.fetch());
 		}
 
 		resultList = resultList.stream()
-			.sorted((a, b) -> (int)((b.getBeerDetailsStars().getTotalAverageStars() * 100)
-				- (a.getBeerDetailsStars().getTotalAverageStars() * 100)))
+			.sorted((a, b) -> (int)((b.getCoffeeDetailsStars().getTotalAverageStars() * 100)
+				- (a.getCoffeeDetailsStars().getTotalAverageStars() * 100)))
 			.collect(Collectors.toList());
 
 		resultList.addAll(0, fullTextResultList);
 
-		List<Beer> result = resultList.stream().distinct().collect(Collectors.toList());
+		List<Coffee> result = resultList.stream().distinct().collect(Collectors.toList());
 
 		int total = result.size();
 		int start = (int)pageable.getOffset();
@@ -82,76 +82,76 @@ public class SearchQueryRepository {
 		return new PageImpl<>(result.subList(start, end), pageable, total);
 	}
 
-	public Page<Beer> findBeersPageByBeerCategoryQueryParam(String queryParam, Pageable pageable) {
+	public Page<Coffee> findCoffeesPageByCoffeeCategoryQueryParam(String queryParam, Pageable pageable) {
 
 		queryParam = queryParam.substring(1);
 
-		List<Beer> beerList = jpaQueryFactory
-			.selectFrom(beer)
-			.join(beer.beerBeerCategories, beerBeerCategory)
-			.join(beerBeerCategory.beerCategory, beerCategory)
-			.where(beerCategory.beerCategoryType.stringValue().eq(queryParam))
-			.orderBy(beer.beerDetailsStars.totalAverageStars.desc(), beer.beerDetailsBasic.korName.asc(),
-				beer.beerDetailsBasic.engName.asc())
+		List<Coffee> coffeeList = jpaQueryFactory
+			.selectFrom(coffee)
+			.join(coffee.coffeeCoffeeCategories, coffeeCoffeeCategory)
+			.join(coffeeCoffeeCategory.coffeeCategory, coffeeCategory)
+			.where(coffeeCategory.coffeeCategoryType.stringValue().eq(queryParam))
+			.orderBy(coffee.coffeeDetailsStars.totalAverageStars.desc(), coffee.coffeeDetailsBasic.korName.asc(),
+				coffee.coffeeDetailsBasic.engName.asc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
 		Long total = jpaQueryFactory
-			.select(beer.count())
-			.from(beer)
-			.join(beer.beerBeerCategories, beerBeerCategory)
-			.join(beerBeerCategory.beerCategory, beerCategory)
-			.where(beerCategory.beerCategoryType.stringValue().eq(queryParam))
+			.select(coffee.count())
+			.from(coffee)
+			.join(coffee.coffeeCoffeeCategories, coffeeCoffeeCategory)
+			.join(coffeeCoffeeCategory.coffeeCategory, coffeeCategory)
+			.where(coffeeCategory.coffeeCategoryType.stringValue().eq(queryParam))
 			.fetchOne();
 
-		return new PageImpl<>(beerList, pageable, total);
+		return new PageImpl<>(coffeeList, pageable, total);
 	}
 
-	public Page<Beer> findBeersPageByBeerTagQueryParam(String queryParam, Pageable pageable) {
+	public Page<Coffee> findCoffeesPageByCoffeeTagQueryParam(String queryParam, Pageable pageable) {
 
 		queryParam = queryParam.substring(1);
 
-		List<Beer> beerList = jpaQueryFactory
-			.selectFrom(beer)
-			.where(beer.beerDetailsTopTags.tag1.eq(queryParam)
-				.or(beer.beerDetailsTopTags.tag2.eq(queryParam)))
-			.orderBy(beer.beerDetailsStars.totalAverageStars.desc(), beer.beerDetailsBasic.korName.asc(),
-				beer.beerDetailsBasic.engName.asc())
+		List<Coffee> coffeeList = jpaQueryFactory
+			.selectFrom(coffee)
+			.where(coffee.coffeeDetailsTopTags.tag1.eq(queryParam)
+				.or(coffee.coffeeDetailsTopTags.tag2.eq(queryParam)))
+			.orderBy(coffee.coffeeDetailsStars.totalAverageStars.desc(), coffee.coffeeDetailsBasic.korName.asc(),
+				coffee.coffeeDetailsBasic.engName.asc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
 		Long total = jpaQueryFactory
-			.select(beer.count())
-			.from(beer)
-			.where(beer.beerDetailsTopTags.tag1.eq(queryParam)
-				.or(beer.beerDetailsTopTags.tag2.eq(queryParam)))
+			.select(coffee.count())
+			.from(coffee)
+			.where(coffee.coffeeDetailsTopTags.tag1.eq(queryParam)
+				.or(coffee.coffeeDetailsTopTags.tag2.eq(queryParam)))
 			.fetchOne();
 
-		return new PageImpl<>(beerList, pageable, total);
+		return new PageImpl<>(coffeeList, pageable, total);
 	}
 
-	public Page<Beer> findBeersPageByPairingCategoryQueryParam(String queryParam, Pageable pageable) {
+	public Page<Coffee> findCoffeesPageByPairingCategoryQueryParam(String queryParam, Pageable pageable) {
 
 		queryParam = queryParam.substring(1);
 
-		List<Beer> beerList = jpaQueryFactory
-			.selectFrom(beer)
-			.where(beer.beerDetailsStatistics.bestPairingCategory.eq(queryParam))
-			.orderBy(beer.beerDetailsStars.totalAverageStars.desc(), beer.beerDetailsBasic.korName.asc(),
-				beer.beerDetailsBasic.engName.asc())
+		List<Coffee> coffeeList = jpaQueryFactory
+			.selectFrom(coffee)
+			.where(coffee.coffeeDetailsStatistics.bestPairingCategory.eq(queryParam))
+			.orderBy(coffee.coffeeDetailsStars.totalAverageStars.desc(), coffee.coffeeDetailsBasic.korName.asc(),
+				coffee.coffeeDetailsBasic.engName.asc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
 		Long total = jpaQueryFactory
-			.select(beer.count())
-			.from(beer)
-			.where(beer.beerDetailsStatistics.bestPairingCategory.eq(queryParam))
+			.select(coffee.count())
+			.from(coffee)
+			.where(coffee.coffeeDetailsStatistics.bestPairingCategory.eq(queryParam))
 			.fetchOne();
 
-		return new PageImpl<>(beerList, pageable, total);
+		return new PageImpl<>(coffeeList, pageable, total);
 	}
 
 	public Page<User> findUsersPageByQueryParam(User loginUser, String queryParam, Pageable pageable) {

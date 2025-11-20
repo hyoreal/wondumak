@@ -32,7 +32,7 @@ export default function ImageCarousel(props: { imageProps: any }) {
                 height={250}
               />
               <div className="absolute text-white left-20 bottom-10 text-2xl">
-                여기에 Get A Beer 첫번째 광고가 들어갑니다
+                여기에 Get A Coffee 첫번째 광고가 들어갑니다
               </div>
             </SwiperSlide>
           )}
@@ -48,7 +48,7 @@ export default function ImageCarousel(props: { imageProps: any }) {
                 height={250}
               />
               <div className="absolute text-white left-20 bottom-10 text-2xl">
-                여기에 Get A Beer 두번째 광고가 들어갑니다
+                여기에 Get A Coffee 두번째 광고가 들어갑니다
               </div>
             </SwiperSlide>
           )}
@@ -64,7 +64,7 @@ export default function ImageCarousel(props: { imageProps: any }) {
                 height={300}
               />
               <div className="absolute text-white left-20 bottom-10 text-2xl">
-                여기에 Get A Beer 세번째 광고가 들어갑니다
+                여기에 Get A Coffee 세번째 광고가 들어갑니다
               </div>
             </SwiperSlide>
           )}

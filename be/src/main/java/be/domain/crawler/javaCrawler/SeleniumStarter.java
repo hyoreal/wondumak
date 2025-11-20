@@ -122,31 +122,31 @@ public class SeleniumStarter {
 			webElement.sendKeys(Keys.TAB, Keys.TAB, Keys.ENTER);
 			Thread.sleep(5000);
 
-			List<WebElement> beerInfoElement = webDriver.findElements(By.xpath(BEER_INFO_XPATH));
+			List<WebElement> coffeeInfoElement = webDriver.findElements(By.xpath(BEER_INFO_XPATH));
 
-			if (beerInfoElement.size() < 12) {
+			if (coffeeInfoElement.size() < 12) {
 				continue;
 			}
 
-			CrawledInfo crawledInfo = createBeerInfo(beerInfoElement);
+			CrawledInfo crawledInfo = createCoffeeInfo(coffeeInfoElement);
 			crawledInfos.add(crawledInfo);
 		}
 
 		return crawledInfos;
 	}
 
-	public CrawledInfo createBeerInfo(List<WebElement> beerInfoElement) {
+	public CrawledInfo createCoffeeInfo(List<WebElement> coffeeInfoElement) {
 
 		List<String> list = new ArrayList<>();
 
-		for (WebElement webElement : beerInfoElement) {
+		for (WebElement webElement : coffeeInfoElement) {
 			list = List.of(webElement.getText().split("\n"));
 		}
 
 		return CrawledInfo.builder()
 			.engName(list.get(2))
 			.country(list.get(7))
-			.beerCategory(list.get(8))
+			.coffeeCategory(list.get(8))
 			.abv(list.get(10))
 			.ibu(list.get(12))
 			.build();

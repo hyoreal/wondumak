@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
-import be.domain.elasticsearch.repository.BeerSearchRepository;
+import be.domain.elasticsearch.repository.CoffeeSearchRepository;
 
 @Configuration
 @EnableElasticsearchRepositories

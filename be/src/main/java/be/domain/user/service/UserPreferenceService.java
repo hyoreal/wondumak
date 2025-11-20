@@ -2,61 +2,61 @@ package be.domain.user.service;
 
 import org.springframework.stereotype.Service;
 
-import be.domain.beercategory.entity.BeerCategory;
-import be.domain.beercategory.service.BeerCategoryService;
-import be.domain.beertag.entity.BeerTag;
-import be.domain.beertag.service.BeerTagService;
+import be.domain.coffeecategory.entity.CoffeeCategory;
+import be.domain.coffeecategory.service.CoffeeCategoryService;
+import be.domain.coffeetag.entity.CoffeeTag;
+import be.domain.coffeetag.service.CoffeeTagService;
 import be.domain.user.entity.User;
-import be.domain.user.entity.UserBeerCategory;
-import be.domain.user.entity.UserBeerTag;
-import be.domain.user.repository.UserBeerCategoryQRepository;
-import be.domain.user.repository.UserBeerCategoryRepository;
-import be.domain.user.repository.UserBeerTagQRepository;
-import be.domain.user.repository.UserBeerTagRepository;
+import be.domain.user.entity.UserCoffeeCategory;
+import be.domain.user.entity.UserCoffeeTag;
+import be.domain.user.repository.UserCoffeeCategoryQRepository;
+import be.domain.user.repository.UserCoffeeCategoryRepository;
+import be.domain.user.repository.UserCoffeeTagQRepository;
+import be.domain.user.repository.UserCoffeeTagRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class UserPreferenceService {
 
-	private final BeerTagService beerTagService;
-	private final BeerCategoryService beerCategoryService;
-	private final UserBeerTagRepository userBeerTagRepository;
-	private final UserBeerTagQRepository userBeerTagQRepository;
-	private final UserBeerCategoryRepository userBeerCategoryRepository;
-	private final UserBeerCategoryQRepository userBeerCategoryQRepository;
+	private final CoffeeTagService coffeeTagService;
+	private final CoffeeCategoryService coffeeCategoryService;
+	private final UserCoffeeTagRepository userCoffeeTagRepository;
+	private final UserCoffeeTagQRepository userCoffeeTagQRepository;
+	private final UserCoffeeCategoryRepository userCoffeeCategoryRepository;
+	private final UserCoffeeCategoryQRepository userCoffeeCategoryQRepository;
 
-	/* set UserBeerTags */
-	protected void setUserBeerTags(User post, User user) {
-		if (user.getUserBeerTags() != null) {
-			userBeerTagQRepository.delete(user.getId());
+	/* set UserCoffeeTags */
+	protected void setUserCoffeeTags(User post, User user) {
+		if (user.getUserCoffeeTags() != null) {
+			userCoffeeTagQRepository.delete(user.getId());
 		}
 
-		post.getUserBeerTags().forEach(userBeerTag -> {
-			BeerTag beerTag =
-				beerTagService.findVerifiedBeerTagByBeerTagType(userBeerTag.getBeerTag().getBeerTagType());
-			UserBeerTag saved = UserBeerTag.builder()
+		post.getUserCoffeeTags().forEach(userCoffeeTag -> {
+			CoffeeTag coffeeTag =
+				coffeeTagService.findVerifiedCoffeeTagByCoffeeTagType(userCoffeeTag.getCoffeeTag().getCoffeeTagType());
+			UserCoffeeTag saved = UserCoffeeTag.builder()
 				.user(user)
-				.beerTag(beerTag)
+				.coffeeTag(coffeeTag)
 				.build();
-			userBeerTagRepository.save(saved);
+			userCoffeeTagRepository.save(saved);
 		});
 	}
 
-	/* set BeerCategories */
-	protected void setUserBeerCategories(User post, User user) {
-		if (user.getUserBeerCategories() != null) {
-			userBeerCategoryQRepository.delete(user.getId());
+	/* set CoffeeCategories */
+	protected void setUserCoffeeCategories(User post, User user) {
+		if (user.getUserCoffeeCategories() != null) {
+			userCoffeeCategoryQRepository.delete(user.getId());
 		}
 
-		post.getUserBeerCategories().forEach(userBeerCategory -> {
-			BeerCategory beerCategory =
-				beerCategoryService.findVerifiedBeerCategory(userBeerCategory.getBeerCategory().getBeerCategoryType());
-			UserBeerCategory saved = UserBeerCategory.builder()
+		post.getUserCoffeeCategories().forEach(userCoffeeCategory -> {
+			CoffeeCategory coffeeCategory =
+				coffeeCategoryService.findVerifiedCoffeeCategory(userCoffeeCategory.getCoffeeCategory().getCoffeeCategoryType());
+			UserCoffeeCategory saved = UserCoffeeCategory.builder()
 				.user(user)
-				.beerCategory(beerCategory)
+				.coffeeCategory(coffeeCategory)
 				.build();
-			userBeerCategoryRepository.save(saved);
+			userCoffeeCategoryRepository.save(saved);
 		});
 	}
 }

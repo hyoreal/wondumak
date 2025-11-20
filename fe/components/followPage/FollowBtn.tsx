@@ -27,7 +27,7 @@ export default function FollowBtn({ id, isFollow, setIsFollow }: BtnProps) {
 
   const goToLogin = () => {
     Swal.fire({
-      title: 'Get A Beer',
+      title: 'Get A Coffee',
       text: '로그인이 필요한 서비스 입니다.',
       confirmButtonColor: '#F1B31C',
       confirmButtonText: '확인',

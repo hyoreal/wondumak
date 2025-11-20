@@ -6,14 +6,14 @@ import axios from '@/pages/api/axios';
 import { useEffect, useState } from 'react';
 
 export default function MonthlyPage() {
-  const [monthlyBeerList, setMonthlyBeerList] = useState<MonthlyCardProps[]>(
+  const [monthlyCoffeeList, setMonthlyCoffeeList] = useState<MonthlyCardProps[]>(
     []
   );
   useEffect(() => {
     axios
-      .get('/api/beers/monthly')
+      .get('/api/coffees/monthly')
       .then((res) => {
-        setMonthlyBeerList(res.data);
+        setMonthlyCoffeeList(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -25,8 +25,8 @@ export default function MonthlyPage() {
           지난 달 가장 높은 점수를 받은 이달의 맥주를 만나보세요
         </h2>
       </div>
-      {monthlyBeerList.map((el, idx) => (
-        <MonthlyCard key={el.beerId} cardProps={el} idx={idx} />
+      {monthlyCoffeeList.map((el, idx) => (
+        <MonthlyCard key={el.coffeeId} cardProps={el} idx={idx} />
       ))}
     </PageContainer>
   );

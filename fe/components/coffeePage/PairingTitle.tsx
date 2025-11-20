@@ -1,0 +1,22 @@
+import Link from 'next/link';
+
+export default function PairingTitle(props: {
+  pairngCount: number | undefined;
+  coffeeId: number | undefined;
+}) {
+  return (
+    <div className="max-w-4xl flex justify-between mx-3 mt-4 mb-1">
+      <div className="flex items-center">
+        <span className="font-semibold mr-1 text-base lg:text-xl">페어링</span>
+        <span className="text-xs">{props.pairngCount}</span>
+      </div>
+      {props?.pairngCount === 0 ? (
+        <></>
+      ) : (
+        <Link href={`/allpairing/${props.coffeeId}`}>
+          <span className="text-xs flex items-end">모두보기</span>
+        </Link>
+      )}
+    </div>
+  );
+}

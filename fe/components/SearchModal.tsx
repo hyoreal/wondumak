@@ -22,7 +22,7 @@ export default function SearchModal({ setIsSearching }: SearchProps) {
   const [searchHistoryList, setSearchHistoryList] =
     useRecoilState(searchHistory);
 
-  const beerCategoryList = [
+  const coffeeCategoryList = [
     '*에일',
     '*라거',
     '*밀맥주',
@@ -193,7 +193,7 @@ export default function SearchModal({ setIsSearching }: SearchProps) {
         <div className="mx-5 pb-3">
           <h4 className="text-y-brown">카테고리로 검색</h4>
           <SearchSwiper
-            list={beerCategoryList}
+            list={coffeeCategoryList}
             setIsSearching={setIsSearching}
           />
         </div>

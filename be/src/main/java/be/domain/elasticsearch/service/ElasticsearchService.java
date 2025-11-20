@@ -11,30 +11,30 @@ import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.stereotype.Service;
 
-import be.domain.beer.repository.BeerRepository;
-import be.domain.elasticsearch.entity.BeerDocument;
-import be.domain.elasticsearch.repository.BeerSearchQueryRepository;
-import be.domain.elasticsearch.repository.BeerSearchRepository;
+import be.domain.coffee.repository.CoffeeRepository;
+import be.domain.elasticsearch.entity.CoffeeDocument;
+import be.domain.elasticsearch.repository.CoffeeSearchQueryRepository;
+import be.domain.elasticsearch.repository.CoffeeSearchRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ElasticsearchService {
-	private final BeerRepository beerRepository;
-	private final BeerSearchRepository beerSearchRepository;
+	private final CoffeeRepository coffeeRepository;
+	private final CoffeeSearchRepository coffeeSearchRepository;
 	private final ElasticsearchOperations elasticsearchOperations;
-	private final BeerSearchQueryRepository beerSearchQueryRepository;
+	private final CoffeeSearchQueryRepository coffeeSearchQueryRepository;
 
 	/*
 	 * 인덱스 생성 메서드
 	 */
 	public String createIndex() {
 
-		IndexCoordinates indexCoordinates = elasticsearchOperations.getIndexCoordinatesFor(BeerDocument.class);
+		IndexCoordinates indexCoordinates = elasticsearchOperations.getIndexCoordinatesFor(CoffeeDocument.class);
 
 		IndexQuery indexQuery = new IndexQueryBuilder()
 			.withId(UUID.randomUUID().toString())
-			.withObject(BeerDocument.builder().build())
+			.withObject(CoffeeDocument.builder().build())
 			.build();
 
 		return elasticsearchOperations.index(indexQuery, indexCoordinates);
@@ -43,27 +43,27 @@ public class ElasticsearchService {
 	/*
 	 * Document 삽입 메서드
 	 */
-	public List<BeerDocument> insertDocument(List<BeerDocument> analysisBeerList) {
-		return (List<BeerDocument>)elasticsearchOperations.save(analysisBeerList);
+	public List<CoffeeDocument> insertDocument(List<CoffeeDocument> analysisCoffeeList) {
+		return (List<CoffeeDocument>)elasticsearchOperations.save(analysisCoffeeList);
 	}
 
 	/*
 	 * DB -> ES 데이터 이관 메서드
 	 */
-	public void saveAllBeerDocuments() {
+	public void saveAllCoffeeDocuments() {
 
-		List<BeerDocument> beerDocumentList =
-			beerRepository.findAll().stream()
-				.map(BeerDocument::toEntity)
+		List<CoffeeDocument> coffeeDocumentList =
+			coffeeRepository.findAll().stream()
+				.map(CoffeeDocument::toEntity)
 				.collect(Collectors.toList());
 
-		beerSearchRepository.saveAll(beerDocumentList);
+		coffeeSearchRepository.saveAll(coffeeDocumentList);
 	}
 
-	public List<BeerDocument> searchByName(String name) {
+	public List<CoffeeDocument> searchByName(String name) {
 
 		PageRequest pageRequest = PageRequest.of(0, 10);
 
-		return beerSearchQueryRepository.findByName(name, pageRequest);
+		return coffeeSearchQueryRepository.findByName(name, pageRequest);
 	}
 }

@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Range;
 
-import be.domain.beer.entity.Beer;
+import be.domain.coffee.entity.Coffee;
 import be.domain.comment.entity.RatingComment;
 import be.domain.like.entity.RatingLike;
 import be.domain.user.entity.User;
@@ -66,12 +66,12 @@ public class Rating extends BaseTimeEntity {
 
 	/* 💛 맥주 평가 - 맥주 다대일 연관관계 */
 	@ManyToOne
-	@JoinColumn(name = "beer_id")
-	private Beer beer;
+	@JoinColumn(name = "coffee_id")
+	private Coffee coffee;
 
 	/* 💛 맥주 평가 - 맥주 다대일 연관관계 편의 메서드 */
-	public void belongToBeer(Beer beer) {
-		this.beer = beer;
+	public void belongToCoffee(Coffee coffee) {
+		this.coffee = coffee;
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -119,9 +119,9 @@ public class Rating extends BaseTimeEntity {
 		this.star = star;
 	}
 
-	public void saveDefault(Beer beer, User user, RatingTag ratingTag,
+	public void saveDefault(Coffee coffee, User user, RatingTag ratingTag,
 		Integer likeCount, Integer commentCount, List<RatingComment> ratingCommentList) {
-		this.beer = beer;
+		this.coffee = coffee;
 		this.user = user;
 		this.ratingTag = ratingTag;
 		this.likeCount = likeCount;
